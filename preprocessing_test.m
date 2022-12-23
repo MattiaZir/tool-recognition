@@ -12,7 +12,7 @@ clear all;
 %% BINARIZZAZIONE CON SHARPENING
 
 im = imread('data\0007.jpg');
-folder = "C:\Users\MaxDankness\Documents\Progetti\elab_immagini\tool-recognition\esperimenti\sharpening\";
+folder = "\esperimenti\sharpening\";
 grey = rgb2gray(im);
 radiuses = [5, 11];
 amounts = [1.5, 2.0];
@@ -30,13 +30,7 @@ for rad = 1:length(radiuses)
 %         imwrite(tmp, "bin_" ...
 %             + radiuses(rad) + '_' + amounts(am) + ".png");
 
-        fig = figure("Visible","off");
-        subplot(1,2,1), imshow(sharp), title("sharpened");
-        xlabel({"radius: " + radiuses(rad), "amount: " + amounts(am), "threshold: 0"});
 
-        subplot(1,2,2), imshow(bin), title("binarized");
-        xlabel({"type: adaptive", "foregroundPolarity: dark", "sensitivity: 0.4"});
-        saveas(fig, folder + idx, 'jpg');
         idx = idx + 1;
     end
 end
