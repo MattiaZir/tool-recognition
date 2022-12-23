@@ -1,7 +1,7 @@
 close all;
 clear all;
 
-%% QUESTA è la parte "pipeline"
+%% Questa è la parte di preprocessing hardcoded
 % grey = rgb2gray(im);
 % 
 % sharpened = imsharpen(grey, "Radius", 5, "Amount", 1.5, "Threshold", 0.2);
@@ -10,10 +10,10 @@ clear all;
 % imbinarize(sharpened, "adaptive","ForegroundPolarity", 'dark', 'Sensitivity', 0.4);
 
 
-%% BINARIZZAZIONE CON SHARPENING
+%% BINARIZZAZIONE CON SHARPENING - TEST
 
 im = imread('data\0007.jpg');
-folder = "\esperimenti\sharpening\";
+folder = "{fullpath}\tool-recognition\esperimenti\sharpening\";
 grey = rgb2gray(im);
 radiuses = [5, 11];
 amounts = [1.5, 2.0];
@@ -30,6 +30,14 @@ for rad = 1:length(radiuses)
          bin = imbinarize(sharp, "adaptive", "ForegroundPolarity", "dark", "sensitivity", 0.4);
 %         imwrite(tmp, "bin_" ...
 %             + radiuses(rad) + '_' + amounts(am) + ".png");
+
+        fig = figure("Visible","off");
+        subplot(1,2,1), imshow(sharp), title("sharpened");
+        xlabel({"radius: " + radiuses(rad), "amount: " + amounts(am), "threshold: 0"});
+
+        subplot(1,2,2), imshow(bin), title("binarized");
+        xlabel({"type: adaptive", "foregroundPolarity: dark", "sensitivity: 0.4"});
+        saveas(fig, folder + idx, 'jpg');
         idx = idx + 1;
     end
 end
