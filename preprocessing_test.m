@@ -1,6 +1,7 @@
 close all;
 clear all;
 
+%% QUESTA è la parte "pipeline"
 % grey = rgb2gray(im);
 % 
 % sharpened = imsharpen(grey, "Radius", 5, "Amount", 1.5, "Threshold", 0.2);
@@ -29,8 +30,6 @@ for rad = 1:length(radiuses)
          bin = imbinarize(sharp, "adaptive", "ForegroundPolarity", "dark", "sensitivity", 0.4);
 %         imwrite(tmp, "bin_" ...
 %             + radiuses(rad) + '_' + amounts(am) + ".png");
-
-
         idx = idx + 1;
     end
 end
