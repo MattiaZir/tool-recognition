@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath(genpath('aux/'));
+addpath(genpath('support/'));
 [images, labels] = readlists();
 n = numel(images);
 
