@@ -1,3 +1,7 @@
+TODO:
+fare foto chiavi avvitatori e altre classi
+
+
 struttura progetto:
 
     top-directory/
