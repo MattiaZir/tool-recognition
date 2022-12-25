@@ -3,10 +3,10 @@ clear all;
 
 %% Questa è la parte di preprocessing hardcoded
 % grey = rgb2gray(im);
-% 
+%
 % sharpened = imsharpen(grey, "Radius", 5, "Amount", 1.5, "Threshold", 0.2);
 % imshow(sharpened);
-% 
+%
 % imbinarize(sharpened, "adaptive","ForegroundPolarity", 'dark', 'Sensitivity', 0.4);
 
 
