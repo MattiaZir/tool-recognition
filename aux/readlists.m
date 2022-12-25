@@ -8,5 +8,4 @@ function [images,labels]=readlists()
   l = textscan(f,'%s');
   labels = l{:};
   fclose(f);
-    labels=[];
 end
