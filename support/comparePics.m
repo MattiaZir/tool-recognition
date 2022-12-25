@@ -1,14 +1,14 @@
-% images, titles e comments devono avere la stessa lunghezza attualmente
-function out_fig = comparePics(images, titles, comments)
+%% TODO: rendi più generale il codice, da testare
+%     parametri:  image1, image2 - immagini
+%                 titles - array di titoli (per ora due)
+%                 comments - array di stringhe ( per ora due)
 
-    fig = figure("Visible", "off");
 
-    for i = 1:length(images)
-        subplot(1, length(images), i), 
-        imshow(images{i}), 
-        title(titles(i));
-        xlabel(comments(i));
-    end
+function out_fig = comparePics(image1, image2, titles, comments)
+        fig = figure("Visible","off");
+        subplot(1,2,1), imshow(image1), title(titles(1));
+        xlabel(comments(1));
 
-    out_fig = fig;
+        subplot(1,2,2), imshow(image2), title(titles(2));
+        xlabel(comments(2));
 end
