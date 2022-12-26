@@ -1,14 +1,15 @@
-%% TODO: rendi più generale il codice, da testare
-%     parametri:  image1, image2 - immagini
-%                 titles - array di titoli (per ora due)
-%                 comments - array di stringhe ( per ora due)
 
 
-function out_fig = comparePics(image1, image2, titles, comments)
-        fig = figure("Visible","off");
-        subplot(1,2,1), imshow(image1), title(titles(1));
-        xlabel(comments(1));
+% images, titles e comments devono essere della stessa lunghezza
+function out_fig = comparePics(images, titles, comments)
+    fig = figure("Visible", "off");
 
-        subplot(1,2,2), imshow(image2), title(titles(2));
-        xlabel(comments(2));
+    for i = 1:length(images)
+        subplot(1, length(images), i),
+        imshow(images{i}),
+        title(titles(i));
+        xlabel(comments(i));
+    end
+
+    out_fig = fig;
 end
