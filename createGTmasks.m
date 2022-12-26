@@ -4,21 +4,9 @@ addpath(genpath('support/'));
 [images, labels] = readlists();
 n = numel(images);
 
-for i = 20 : n/5 +25
+for i = floor(3* n/4) : floor(n)
     im = im2double(rgb2gray(imread(strcat("data/",images{i}))));
-    imf = medfilt2(im, [5 5]);
-    imf = imfilter(imf, fspecial("gaussian", 7, 1.2));
-    imf = imf .^0.5;
-%sinceramente sembra meglio senza preprocessing
-
-    bw=1- sauvola(im,[150 150]);
-
-    [L,Centers] = imsegkmeans(uint8(im),2);
-    C = double(L==2);
-
-
-    figure, subplot(1,4,1), imshow(im);
-    subplot(1,4,2), imshow(bw);
-    subplot(1,4,3), imshow(C);
+    
+    bw= 1 - sauvola(imf,[150 150]);%strategia migliore
 
 end
