@@ -4,9 +4,11 @@ addpath(genpath('support/'));
 [images, labels] = readlists();
 n = numel(images);
 
-for i = floor(3* n/4) : floor(n)
+for i = 39: 39
     im = im2double(rgb2gray(imread(strcat("data/",images{i}))));
     
-    bw= 1 - sauvola(imf,[150 150]);%strategia migliore
-
+    bw = 1 - sauvola(im,[150 150]);%strategia migliore
+    bw = imclose(bw, strel('disk', 20));
+    bw = imopen(bw, strel('disk', 5));
+    figure, imshow(bw);
 end
