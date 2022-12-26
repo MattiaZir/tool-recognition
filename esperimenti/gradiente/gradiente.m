@@ -7,8 +7,8 @@ n = numel(images);
 for i = 1: n/4
     im = im2double(rgb2gray(imread(strcat("data/",images{i}))));
     
-    bordi = edge(im, 'sobel');
-    bordi = imdilate(bordi, strel('disk',5));
+    [bordi,threshOut,Gx,Gy] = edge(im, 'prewitt');
+    bordi = imclose(bordi, strel('disk',3));
     figure, imshow(bordi);
 
     im2 = im.*bordi;
