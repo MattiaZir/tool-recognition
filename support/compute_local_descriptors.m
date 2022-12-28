@@ -1,7 +1,7 @@
 function out = compute_local_descriptors(image, tsize, tstep, compute_funct)
 %tasselli quadrati di dim tsize x tsize
 %tstep è utile se voglio tasselli parzialmente sovrapposti
-  [rows,cols,ch] = size(image);
+  [rows,cols,ch] = size(image);%anche su più canali se il callback lo supporta
   
   half = floor(tsize/2);
   

@@ -15,5 +15,4 @@ for i = 1: n/4
     
     figure, imshow(im2);
     
-    figure, imshow(bw);
 end
