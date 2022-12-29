@@ -20,7 +20,7 @@ for k = 1:n
     res_table = [res_table; tmp];
 end
 
-%% Creazione dei grafici
+% Creazione dei grafici
 figure, bar(res_table.("#"), res_table.errors);
 title("Errori maschera");
 xlabel("# Immagine");

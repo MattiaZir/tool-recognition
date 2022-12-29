@@ -4,7 +4,7 @@ addpath(genpath('support/'));
 [images, labels] = readlists();
 n = numel(images);
 
-for i = 46:n
+for i = 1:n
     im = im2double(rgb2gray(imread(strcat("data/",images{i}))));
     
     im = medfilt2(im, [10 10]);
@@ -12,7 +12,7 @@ for i = 46:n
 
     [r c ch] = size(im);
     
-    res = compute_local_descriptors(im, 20, 7, @compute_lbp);%prima era 30 15
+    res = compute_local_descriptors(im, 30, 15, @compute_lbp);%prima era 30 15
     
     labels = kmeans(res.descriptors, 2);
     counts = histcounts(labels);
