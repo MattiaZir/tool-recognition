@@ -12,8 +12,8 @@ clear all;
 
 %% BINARIZZAZIONE CON SHARPENING - TEST
 
-im = imread('data\0007.jpg');
-folder = "{fullpath}\tool-recognition\esperimenti\sharpening\";
+im = imread('data/0007.jpg');
+folder = "../../sharpening/";
 grey = rgb2gray(im);
 radiuses = [5, 11];
 amounts = [1.5, 2.0];

@@ -26,6 +26,9 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     
         res_table = [res_table; tmp];
     end
+
+    % Crea la folder
+    mkdir(dataCsvFolder);
     
     % Creazione dei grafici
     figure, bar(res_table.("#"), res_table.errors);
@@ -56,6 +59,5 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     saveas(gcf, dataCsvFolder + "/label_avg_errors", 'jpg');
     
     % Creazione file
-    mkdir(dataCsvFolder);
     writetable(grouped, dataCsvFolder + "/data.csv");
 end

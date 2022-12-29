@@ -5,8 +5,8 @@ addpath(genpath('support/'));
 n = numel(images);
 
 
-for j = 50 : 1 : n
-    im = im2double(rgb2gray(imread(strcat("data/",images{j}))));
+for j = 1 : n
+    im = im2double(rgb2gray(imread(images{j})));
 
     se = strel("disk", 25);
     closed = imclose(im, se);
@@ -14,8 +14,9 @@ for j = 50 : 1 : n
     bw = imbinarize(bottomhat);
 
     im = insertText(im, [50 50], "originale");
-    closed = insertText(closed, [50 50], "Chiusura con disco r=30");
-    bottomhat = insertText(bottomhat, [50 50], "bottomhat");
+    closed = insertText(closed, [30 30], "Chiusura con disco r=30");
+    bottomhat = insertText(bottomhat, [30 30], "bottomhat");
     
-    figure, montage({im closed bottomhat bw}, "size", [2 2]);
+    figure("Visible","off"), imshow(bw);
+    saveas(gcf, "./otsu_bin_bhat_30/" + i, 'png');
 end
