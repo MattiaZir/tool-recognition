@@ -3,12 +3,13 @@ close all;
 addpath(genpath('support/'));
 [images, l] = readlists();
 n = numel(images);
+mkdir(".\otsu_bin_bhat_30");
 
 
 for j = 1 : n
     im = im2double(rgb2gray(imread(images{j})));
 
-    se = strel("disk", 25);
+    se = strel("disk", 30);
     closed = imclose(im, se);
     bottomhat = closed - im;
     bw = imbinarize(bottomhat);
@@ -18,5 +19,5 @@ for j = 1 : n
     bottomhat = insertText(bottomhat, [30 30], "bottomhat");
     
     figure("Visible","off"), imshow(bw);
-    saveas(gcf, "./otsu_bin_bhat_30/" + i, 'png');
+    saveas(gcf, "./otsu_bin_bhat_30/" + j, 'png');
 end
