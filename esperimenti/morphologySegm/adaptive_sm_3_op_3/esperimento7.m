@@ -3,7 +3,7 @@ close all;
 addpath(genpath('support/'));
 [images, l] = readlists();
 n = numel(images);
-mkdir(".\otsu_bin_sm_morph_sm_3_op_9");
+mkdir(".\adaptive_sm_3_op_3");
 
 
 for j = 1 : 3 : n
@@ -17,5 +17,5 @@ for j = 1 : 3 : n
 
     bw_opened = imopen(bw, se);
     figure("Visible","off"), imshow(imcomplement(bw));
-    saveas(gcf, "./otsu_bin_sm_morph_sm_3_op_9/" + j, 'png');
+    saveas(gcf, "./adaptive_sm_3_op_3/" + j, 'png');
 end
