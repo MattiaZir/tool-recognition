@@ -79,3 +79,18 @@ Cambio Structuring element, tenendo sempre il disco ma aumentandolo a 9
 ## OSSERVAZIONI
 
 Elimina praticamente tutto, bocciato direttamente.
+
+# ESPERIMENTO 7
+
+Voglio provare a cambiare metodo di binarizzazione, provo ad utilizzare una binarizzazione adattiva partendo dall'esperimento 5.
+
+**tipo**: Binarizzazione con otsu dello smoothing morfologico, con opening della binarizzazione
+**forma StructEl**: disk
+**grandezza StructEl smoothing**: 3
+**Sensitivity Binarizzazione**: 0.7
+
+## OSSERVAZIONI
+
+Risultato interessante, sembra che si trovi una sorta di bordo nel nero, vorrei provare a invertire e vedere cosa ne esce.
+
+# ESPERIMENTO 8
