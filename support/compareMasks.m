@@ -2,7 +2,7 @@
 % methodTitle = il nome del metodo utilizzato per segmentare
 % dataCsvFolder = la path del file di testo dove salvare un report di
 % statistiche (es. "./esperimenti/kmeansSegm/report)
-function out_f = compareMasks(methodTitle , dataCsvFolder)
+function out_f = compareMasks(methodTitle , folderName)
 
     if nargin < 2
         error("too few arguments")
@@ -28,7 +28,7 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     end
 
     % Crea la folder
-    mkdir(dataCsvFolder);
+    mkdir(folderName);
     
     % Creazione dei grafici
     figure, bar(res_table.("#"), res_table.errors);
@@ -37,7 +37,7 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     xlabel("# Immagine");
     ylabel("# Errori");
     
-    saveas(gcf, dataCsvFolder + "/tot_errors", 'jpg');
+    saveas(gcf, folderName + "/tot_errors", 'jpg');
 
     % Raggruppo le statistiche
     grouped = grpstats(res_table, "label", ["sum", "min", "max", "mean", "std"]);
@@ -48,7 +48,7 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     xlabel("Label");
     ylabel("# Errori");
 
-    saveas(gcf, dataCsvFolder + "/label_tot_errors", 'jpg');
+    saveas(gcf, folderName + "/label_tot_errors", 'jpg');
     
     % MEDIA ERRORI
     figure, bar(categorical(grouped.label), grouped.mean_errors);
@@ -56,8 +56,8 @@ function out_f = compareMasks(methodTitle , dataCsvFolder)
     xlabel("Label");
     ylabel("# Errori");
 
-    saveas(gcf, dataCsvFolder + "/label_avg_errors", 'jpg');
+    saveas(gcf, folderName + "/label_avg_errors", 'jpg');
     
     % Creazione file
-    writetable(grouped, dataCsvFolder + "/data.csv");
+    writetable(grouped, folderName + "/data.csv");
 end
