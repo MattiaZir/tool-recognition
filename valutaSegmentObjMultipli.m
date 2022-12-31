@@ -1,10 +1,18 @@
-%
+%per la visualizzazione / salvataggio stime accuratezza segmentazione pic
+%con + oggetti. nota che salva dentro la cartella segmentationMethodName/multiple
 
 clear;
 close all;
 addpath(genpath('support/'));
 [images, dummy, paths2gt, labels_meaning] = readlists('multiple');
 n = numel(images);
+
+res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
+
+%  lui salva in
+% esperimenti/segmentationMethodName/multiple/ i 3 grafici e 'grouped' serializzato.
+segmentationMethodName = 'kmeans su lbp tile 30x30 step 15/multiple';
+salva = 1;
 
 for i = 1 : 1 % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     im = im2double(rgb2gray(imread(images{i})));
@@ -38,6 +46,27 @@ for i = 1 : 1 % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     
     
     subplot(1,3,3), imshowpair(bw, gt,'falsecolor');
-    diff = compareMasksV2(bw, gt) %numero di pixel di oggetti considerati sfondo + viceversa
+    diff = compareMasksV2(bw, gt); %numero di pixel di oggetti considerati sfondo + viceversa
+    tmp = {i, diff};    
+    res_table = [res_table; tmp];
+
 
 end
+
+if salva==1
+    cd("esperimenti/");
+    mkdir(segmentationMethodName);
+end
+
+figure, bar(res_table.("#"), res_table.errors);
+title(segmentationMethodName+" Errori maschera");
+xlabel("# Immagine");
+ylabel("# Errori");
+if salva==1
+    saveas(gcf, segmentationMethodName + "/tot_errors", 'jpg');
+end
+
+
+
+
+
