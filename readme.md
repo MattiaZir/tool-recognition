@@ -1,5 +1,6 @@
 TODO:
-fare foto chiavi avvitatori e altre classi
+fare foto sfondi non uniformi e foto con + obj E LABELLARLE
+stabilire mapping per labels_meaning e mantenerlo nel labelling foto con + obj
 
 
 struttura progetto:
@@ -10,7 +11,7 @@ struttura progetto:
         esperimenti/
             gli esperimenti fatti finora, quel che decidiamo di usare lo si sperimenta qui e poi lo si usa nel programma finale.
 
-        aux/
+        support/
             per file temporanei/ausiliari + script che main usa, per fare questo trick: "addpath(genpath('aux/'))"
 
         data/
