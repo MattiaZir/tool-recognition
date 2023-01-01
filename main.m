@@ -5,13 +5,17 @@ addpath(genpath('support/'));
 n = numel(images); 
 
 
-for i = n-20 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
+for i = n-15 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     im = imread(images{i});
     im = imresize(im, [768, 1024]);%le mie pic sono in 4/3 altre no
     im = im2double(rgb2gray(im));
     im = medfilt2(im, [10 10]);
     im = medfilt2(im, [10 10]);
     im = medfilt2(im, [10 10]);
+    im = medfilt2(im, [10 10]);
+    im = medfilt2(im, [10 10]);
+    im = imfilter(im, fspecial("gaussian", 10, 1.8));
+    im = imfilter(im, fspecial("gaussian", 10, 1.8));
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
