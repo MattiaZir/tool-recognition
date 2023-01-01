@@ -84,7 +84,7 @@ Elimina praticamente tutto, bocciato direttamente.
 
 Voglio provare a cambiare metodo di binarizzazione, provo ad utilizzare una binarizzazione adattiva partendo dall'esperimento 5.
 
-**tipo**: Binarizzazione con otsu dello smoothing morfologico, con opening della binarizzazione
+**tipo**: Binarizzazione adattiva dello smoothing morfologico, con opening della binarizzazione
 **forma StructEl**: disk
 **grandezza StructEl smoothing**: 3
 **Sensitivity Binarizzazione**: 0.7
@@ -94,3 +94,25 @@ Voglio provare a cambiare metodo di binarizzazione, provo ad utilizzare una bina
 Risultato interessante, sembra che si trovi una sorta di bordo nel nero, vorrei provare a invertire e vedere cosa ne esce.
 
 # ESPERIMENTO 8
+
+Inverto la binarizzazione.
+
+**tipo**: Binarizzazione adattiva dello smoothing morfologico, con opening della binarizzazione (invertita)
+**forma StructEl**: disk
+**grandezza StructEl smoothing**: 3
+**Sensitivity Binarizzazione**: 0.7
+
+## OSSERVAZIONI
+
+Meno interessante dell'esperimento 7, magari partendo dall'esperimento 7 si potrebbe fare quello smoothing morfologico con binarizzazione adattiva su tutti i tre canali, e vedere quali sono le differenze tra loro, così da rinforzare gli eventuali bordi.
+
+# ESPERIMENTO 9
+Esperimento 7 ma su tre canali (RGB), combinando i tre canali con un *AND* (l'AND dovrebbe tenere principalmente i bordi, che hanno meno "rumore" dello sfondo)
+
+**tipo**: Binarizzazione adattiva dello smoothing morfologico, con opening della binarizzazione (invertita)
+**forma StructEl**: disk
+**grandezza StructEl smoothing**: 3
+**Sensitivity Binarizzazione**: 0.7
+
+## OSSERVAZIONI
+Non vedo miglioramenti, esperimento completamente fallito
