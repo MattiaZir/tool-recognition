@@ -15,7 +15,7 @@ for i = n-20 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
-
+ 
     
 %     figure, imshow(im);
     bw = segmenta(im);
