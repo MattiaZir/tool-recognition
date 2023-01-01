@@ -6,7 +6,9 @@ n = numel(images);
 
 
 for i = 1 : 1 % solo 1 pic ha la gt quindi... 1:1 e non 1:n
-    im = im2double(rgb2gray(imread(images{i})));
+    im = imread(images{i});
+    im = imresize(im, [384, 512]);
+    im = im2double(rgb2gray(im));
     im = medfilt2(im, [10 10]);
     im = imfilter(im, fspecial("gaussian", 10, 1.8));
 
@@ -33,15 +35,22 @@ for i = 1 : 1 % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     bw = imclose(bw, strel('disk',20));
     subplot(1,3,2), imshow(bw);
     
-    
-    CC = bwconncomp(bw);
-    numPixels = cellfun(@numel,CC.PixelIdxList);
-    for j=1:CC.NumObjects
-        if numPixels(j)<200
-            j
-            bw(CC.PixelIdxList{j}) = 0;
+
+
+    [L,N] = bwlabel(bw,8);
+    numPixelsPerCC = histcounts(L);%alla posiz (1) c'è il count di pixel dell'obj 0!! non 1
+
+    for j = 1:N %numPixelsPerCC(i) ha i pixel dell'obj i+1, perchè a posiz 1 ha quelli dello sfondo!
+        if numPixelsPerCC(j+1) < 250 %dipende dalla size
+            mask = L==j;
+            mask = mask.*j;
+            figure(j), imshow(mask.*36);
+            [rows,cols] = find(mask);%coordinates for the pixels in object j
+            L = L - mask;
+%             L =double( uint8(L)-mask);
         end
     end
-    subplot(1,3,3), imshow(bw);
+
+    figure, imshow(L);
 
 end
