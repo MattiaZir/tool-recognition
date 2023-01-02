@@ -109,7 +109,7 @@ Meno interessante dell'esperimento 7, magari partendo dall'esperimento 7 si potr
 # ESPERIMENTO 9
 Esperimento 7 ma su tre canali (RGB), combinando i tre canali con un *AND* (l'AND dovrebbe tenere principalmente i bordi, che hanno meno "rumore" dello sfondo)
 
-**tipo**: Binarizzazione adattiva dello smoothing morfologico, con opening della binarizzazione (invertita)
+**tipo**: Binarizzazione adattiva dello smoothing morfologico, con opening della binarizzazione in RGB
 **forma StructEl**: disk
 **grandezza StructEl smoothing**: 3
 **Sensitivity Binarizzazione**: 0.7
