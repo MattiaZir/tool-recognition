@@ -35,7 +35,7 @@ end
 n = numel(images); 
 
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
-
+%TODO imresize fatto bene
 accu=[];
 for i =  1 : 1: n
     im = im2double(imread(images{i}));
@@ -64,7 +64,9 @@ for i =  1 : 1: n
     
     p = reshape(predicted, r, c, 1)>0;
     p =imclose(p, strel('disk', 6));
-    figure, show_result(im, p);
+%     figure, show_result(im, p);
+    bw = activecontour(im,p,300);
+    figure, imshow(bw);
 end
 
 mean(accu,"all","omitnan")
