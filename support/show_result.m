@@ -8,8 +8,8 @@ function show_result(image,mask)
   mask3 = double(repmat(mask,[1,1,ch]));
 
   region = im2double(image).*mask3;
-
-  figure;
+% 
+%   figure;
   subplot(1,2,1),imshow(image);
   subplot(1,2,2),imshow(region);
 
