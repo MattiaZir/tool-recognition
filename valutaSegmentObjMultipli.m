@@ -12,9 +12,9 @@ res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
 %  lui salva in
 % esperimenti/segmentationMethodName/multiple/ i 3 grafici e 'grouped' serializzato.
 segmentationMethodName = 'kmeans su lbp tile 30x30 step 15/multiple';
-salva = 1;
+salva = 0;
 
-for i = 1 : 1 % solo 1 pic ha la gt quindi... 1:1 e non 1:n
+for i = 1 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     im = im2double(rgb2gray(imread(images{i})));
     im = medfilt2(im, [10 10]);
     im = imfilter(im, fspecial("gaussian", 10, 1.8));

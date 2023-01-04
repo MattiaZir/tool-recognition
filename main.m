@@ -1,58 +1,92 @@
 clear;
 close all;
 addpath(genpath('support/'));
-[images, dummy, paths2gt, labels_meaning] = readlists();
+[images, ~, paths2gt, labels_meaning] = readlists();
 n = numel(images); 
 %classificatore knn per trovare i pixel di una immagine che sono di obj
 
-train.values=[];
-train.labels=[];
+train_values=[];
+train_labels=[];
 
-for i = 1 : 5: 71
+for i = 1 : 1: 82
     im = im2double(imread(images{i}));
-    im = rgb2gray(imresize(im, 0.3));%le mie pic sono in 4/3 altre no
+    im = rgb2gray(imresize(im, 0.2,"nearest"));
     gt = imread(paths2gt{i});
-    gt = imresize(gt(:,:,1), 0.3)>0;    
+    gt = imresize(gt(:,:,1), 0.2,"nearest")>0;    
+    gt = uint8(gt);
 
     [r c ~] = size(im);
 
-    res = compute_local_descriptors(im, 20, 10, @compute_lbp);
+    res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);
     
-    lbpAGrandezzaGiusta = reshape(res.descriptors, [res.nt_rows res.nt_cols]);%la pic è t_step volte(forse) più piccola di raw
-    lbpAGrandezzaGiusta = imresize(lbpAGrandezzaGiusta, [r,c], "nearest");%uso Nneighbor per non fargli generare nuovi valori 
-    
-    skin = lbpAGrandezzaGiusta .* gt;
-    noskin = lbpAGrandezzaGiusta .* (1-gt);
-    [rs,cs,ch] = size(skin);
-    skin = reshape(skin, rs*cs, ch);
-    
-    [rns,cns,ch] = size(noskin);
-    noskin = reshape(noskin, rns*cns, ch);
-    %todo: migliorare efficienza
-    train.values = [train.values; noskin; skin];%etichetta 0 a noskin e 1 a skin ---v
-    train.labels = uint8([train.labels; zeros(rns*cns, 1); ones(rs*cs, 1)]);%nelle prime n righe ho i dati skin e dopo i noskin
+    [rs,cs,ch] = size(res.descriptors); % 12288 x 59 x 1
+%     descrittoriAGrandezzaGiusta = reshape(res.descriptors, [res.nt_rows res.nt_cols 1]);
+%     descrittoriAGrandezzaGiusta = imresize(descrittoriAGrandezzaGiusta, [r,c], "nearest");
+%     descrittoriAGrandezzaGiusta = reshape(descrittoriAGrandezzaGiusta, [], 1);
+
+    train_values = vertcat(train_values, res.descriptors);
+    labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
+    train_labels = vertcat(train_labels, labels_vector);
 
 end
 
 
-%vuole i dati per riga per classificarli
-classifier = fitcknn(train.values, train.labels, "NumNeighbors", 3);%k=1 di base 
+[images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
+n = numel(images); 
 
-%lo uso sul test set ora
+classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 
-im = im2double(imread("data/0072.jpg"));
-[ri, ci, ch] = size(im);
-test.values = reshape( im, ri*ci, ch);
+accu=[];
+for i =  1 : 1: n
+    im = im2double(imread(images{i}));
+    im = rgb2gray(imresize(im, 0.2,"nearest"));
+    gt = imread(paths2gt{i});
+    gt = imresize(gt(:,:,1), 0.2,"nearest")>0;    
+    gt = uint8(gt);
+    
+    [r c ~] = size(im);
+    
+    res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);
+    
+    [rs,cs,ch] = size(res.descriptors);
+    
+    
+    test.values = res.descriptors;
+    labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
+    
+    
+        
+    predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
+    
+    cm = confmat(labels_vector, predicted);%confronto predizioni-gtruth
+%     figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
+    accu= [accu, cm.cm(2,2)];
+    
+    p = reshape(predicted, r, c, 1)>0;
+    p =imclose(p, strel('disk', 6));
+    figure, show_result(im, p);
+end
 
-gt = imread(paths2gt{72});
-gt = gt(:,:,1) >0;
-test.labels = uint8(reshape( gt, ri*ci, 1)) ;
+mean(accu,"all","omitnan")
 
-predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
+%   5x5     ->  0.8726
+%   7x7     ->  0.8844
+%   10x10   ->  0.8624
+%   15x15   ->  0.8254
 
-cm = confmat(test.labels, predicted);%confronto predizioni-gtruth
-figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
+%pic da 60 a 80 -> 0.1921   (k=3)
 
+%pic da ... a ... -> 0.0448   (k=10) fa schifo k=10 sempre
+%pic da 10 a 80 -> 0.3044   k=3
+%pic da 81 a 82 -> 0.2306   k=1
+%pic da 81 a 82 -> 0.1689   k=3
+%pic da 1 a 82  -> 0.3107   k=3
+%pic da 1 a 82  ->  0.9800 0.9611  k=1
 
-p = reshape(predicted, ri, ci, 1)>0;%>0 per il cast in booleani
-show_result(im, p);
+%k=1 5x5 pic multiple   0.2099
+%k=1 15x15 pic multiple   0.3493
+%k=1 15x15 imresize=0.2 pic multiple   0.2479
+%k=1 15x15 imresize=0.3 pic multiple   0.2065
+%k=1 15x15 imresize=0.07 pic multiple   0.3589
+
+%k=3 15x15 imresize=0.2 pic multiple   0.1761
