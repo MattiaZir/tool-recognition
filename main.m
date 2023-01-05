@@ -10,9 +10,9 @@ train_labels=[];
 
 for i = 1 : 1: 82
     im = im2double(imread(images{i}));
-    im = rgb2gray(imresize(im, 0.2,"nearest"));
+    im = rgb2gray(imresize(im, [154 205],"nearest"));
     gt = imread(paths2gt{i});
-    gt = imresize(gt(:,:,1), 0.2,"nearest")>0;    
+    gt = imresize(gt(:,:,1), [154 205],"nearest")>0;    
     gt = uint8(gt);
 
     [r c ~] = size(im);
@@ -37,11 +37,12 @@ n = numel(images);
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 %TODO imresize fatto bene
 accu=[];
+tp=[];
 for i =  1 : 1: n
     im = im2double(imread(images{i}));
-    im = rgb2gray(imresize(im, 0.2,"nearest"));
+    im = rgb2gray(imresize(im, [154 205],"nearest"));
     gt = imread(paths2gt{i});
-    gt = imresize(gt(:,:,1), 0.2,"nearest")>0;    
+    gt = imresize(gt(:,:,1), [154 205],"nearest")>0;    
     gt = uint8(gt);
     
     [r c ~] = size(im);
@@ -57,19 +58,23 @@ for i =  1 : 1: n
     
         
     predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
-    
-    cm = confmat(labels_vector, predicted);%confronto predizioni-gtruth
-%     figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
-    accu= [accu, cm.cm(2,2)];
-    
+        
     p = reshape(predicted, r, c, 1)>0;
-    p =imclose(p, strel('disk', 6));
+    %p =imclose(p, strel('disk', 4));
 %     figure, show_result(im, p);
     bw = activecontour(im,p,300);
     figure, imshow(bw);
+
+    cm = confmat(logical(labels_vector), reshape(bw, size(predicted)));%confronto predizioni-gtruth
+    %figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
+    tp= [tp, cm.cm(2,2)];
+    accu= [accu, cm.accuracy];
 end
 
+mean(tp,"all","omitnan")
 mean(accu,"all","omitnan")
+%il valore qui sotto è True positive rate (TN è sempre stato alto, il
+%problema è che si perdeva gli oggetti!)
 
 %   5x5     ->  0.8726
 %   7x7     ->  0.8844
@@ -85,6 +90,7 @@ mean(accu,"all","omitnan")
 %pic da 1 a 82  -> 0.3107   k=3
 %pic da 1 a 82  ->  0.9800 0.9611  k=1
 
+%da qui in giù testo la predizione sulle pic con + obj
 %k=1 5x5 pic multiple   0.2099
 %k=1 15x15 pic multiple   0.3493
 %k=1 15x15 imresize=0.2 pic multiple   0.2479
@@ -92,3 +98,16 @@ mean(accu,"all","omitnan")
 %k=1 15x15 imresize=0.07 pic multiple   0.3589
 
 %k=3 15x15 imresize=0.2 pic multiple   0.1761
+
+%k=3 15x15 imresize=[150 200] pic multiple   0.4390
+%k=3 15x15 imresize=[150 200] +snake e imclose=6 pic multiple  0.9027 accuracy 0.9025
+%k=3 15x15 imresize=[150 200] +filtraggio aggressivo +snake e imclose=6 pic multiple accuracy 0.8069
+%k=3 15x15 imresize=[150 200] +filtraggio leggero +snake e imclose=6 pic multiple TP 0.8897 accuracy 0.8493
+%k=1 15x15 imresize=[150 200] +snake e imclose=6 pic multiple  0.9141 e 
+%accuracy 0.8805 ma bordi oggetti sono frastagliati rumorosi
+
+%k=3 5x5 imresize=[150 200] +snake e imclose=6 pic multiple tp=0.9082 accu=0.8961
+%k=3 5x5 imresize=[150 200] +snake  pic multiple tp=0.8647 accu=0.9138 però
+%non chiude i buchi delle forbici. ma l'obj è rumoroso.
+
+
