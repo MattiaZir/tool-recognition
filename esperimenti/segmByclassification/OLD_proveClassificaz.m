@@ -36,8 +36,7 @@ n = numel(images);
 
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 
-accu=[];
-tp=[];
+cm_all = [];
 for i =  1 : 1: n
     im = im2double(imread(images{i}));
     im = rgb2gray(imresize(im, [154 205],"nearest"));
@@ -50,13 +49,10 @@ for i =  1 : 1: n
     res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);
     
     [rs,cs,ch] = size(res.descriptors);
-    
-    
+
     test.values = res.descriptors;
     labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
-    
-    
-        
+
     predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
         
     p = reshape(predicted, r, c, 1)>0;
@@ -71,7 +67,6 @@ for i =  1 : 1: n
 
     cm_all = [cm_all cm];
 end
-
 
 mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
