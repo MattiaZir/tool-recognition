@@ -1,24 +1,44 @@
-%clear;
+clear;
 close all;
 addpath(genpath('support/'));
+[images, ~, paths2gt, labels_meaning] = readlists();
+n = numel(images); 
+%classificatore knn per trovare i pixel di una immagine che sono di obj
+
+train_values=[];
+train_labels=[];
+
+for i = 1 : 1: 82
+    im = im2double(imread(images{i}));
+    im = rgb2gray(imresize(im, [154 205],"nearest"));
+    gt = imread(paths2gt{i});
+    gt = imresize(gt(:,:,1), [154 205],"nearest")>0;    
+    gt = uint8(gt);
+
+    [r c ~] = size(im);
+
+    res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);
+    
+    [rs,cs,ch] = size(res.descriptors); % 12288 x 59 x 1
+%     descrittoriAGrandezzaGiusta = reshape(res.descriptors, [res.nt_rows res.nt_cols 1]);
+%     descrittoriAGrandezzaGiusta = imresize(descrittoriAGrandezzaGiusta, [r,c], "nearest");
+%     descrittoriAGrandezzaGiusta = reshape(descrittoriAGrandezzaGiusta, [], 1);
+
+    train_values = vertcat(train_values, res.descriptors);
+    labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
+    train_labels = vertcat(train_labels, labels_vector);
+
+end
+
+
 [images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
 n = numel(images); 
 
-<<<<<<< HEAD
-for i =  1 : n %test set
-    im = im2double(imread(images{i}));
-    im = rgb2gray(imresize(im, [154 205],"nearest"));
-
-    bw = segmentaViaClassificazione(im);
-    cc = labelingCompConn(bw);
-    figure, imagesc(cc);
-end
-=======
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
-%TODO imresize fatto bene
-cm_all = [];
 
-for i =  1 : n
+accu=[];
+tp=[];
+for i =  1 : 1: n
     im = im2double(imread(images{i}));
     im = rgb2gray(imresize(im, [154 205],"nearest"));
     gt = imread(paths2gt{i});
@@ -35,13 +55,15 @@ for i =  1 : n
     test.values = res.descriptors;
     labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
     
+    
+        
     predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
         
     p = reshape(predicted, r, c, 1)>0;
-    %p =imclose(p, strel('disk', 4));
+    p =imclose(p, strel('disk', 5));
 %     figure, show_result(im, p);
     bw = activecontour(im,p,300);
-    %figure, imshow(bw);
+    figure, imshow(bw);
 
     cm = confmat(logical(labels_vector), reshape(bw, size(predicted)));%confronto predizioni-gtruth
     
@@ -49,6 +71,7 @@ for i =  1 : n
 
     cm_all = [cm_all cm];
 end
+
 
 mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
@@ -89,4 +112,3 @@ mean_cm = compute_mean_confmat(cm_all);
 %non chiude i buchi delle forbici. ma l'obj è rumoroso.
 
 
->>>>>>> bbf44704da55bca3cd200020bc1ac6f693a2b097
