@@ -72,10 +72,10 @@ mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
 %problema è che si perdeva gli oggetti!)
 
-%   5x5     ->  0.8726 % fatto
-%   7x7     ->  0.8844 % fatto
-%   10x10   ->  0.8624 % fatto
-%   15x15   ->  0.8254
+%   5x5     ->  0.8726
+%   7x7     ->  0.8844
+%   10x10   ->  0.8624 
+%   15x15   ->  0.8254 
 
 %pic da 60 a 80 -> 0.1921   (k=3)
 

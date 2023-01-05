@@ -10,14 +10,28 @@ res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
 salva = 1;
 cm_all = [];
 
+
+
 % parametri per segmentazione
 imsize = [154 205];
-winsize = 10;
+winsize = 15;
 stepsize = 1;
 iterations = 300;
 
-segmentationMethodName = sprintf('03_knn_std_tile_%i_step_%i_iters_%i_multiple', ...
-    winsize, stepsize, iterations);
+% parametri per trainer
+ksize = 3;
+start_im = 1;
+end_im = 82;
+
+
+segmentationMethodName = sprintf('knn_std_tile_%i_step_%i_iters_%i_multiple_%i%i', ...
+    winsize, stepsize, iterations,start_im,end_im);
+
+if salva==1
+    mkdir(segmentationMethodName);
+end
+
+trainer(imsize, winsize, stepsize, ksize, start_im, end_im);
 
 tic % timer
 % valuta la segmentazione
@@ -44,12 +58,8 @@ for i = 1 : n
 end
 timed = toc;
 
-if salva==1
-    mkdir(segmentationMethodName);
-end
-
 figure, bar(res_table.("#"), res_table.errors);
-title(segmentationMethodName+" Errori maschera");
+title(segmentationMethodName+" Errori maschera", Interpreter="none");
 xlabel("# Immagine");
 ylabel("# Errori");
 if salva==1
@@ -68,8 +78,9 @@ if salva==1
     fid = fopen(segmentationMethodName + "/segm_params.txt", 'wt');
     fprintf(fid, "Larghezza immagine: %i\nLunghezza immagine: " + ...
         "%i\nFinestra: %i\nStep: %i\nIterazioni: %i\n" + ...
-        "Tempo impiegato: %.3f secondi", ...
-        imsize, winsize, stepsize, iterations, timed);
+        "Tempo impiegato: %.3f secondi\n" + ...
+        "Accuracy media: %.3f", ...
+        imsize, winsize, stepsize, iterations, timed,cm_mean.accuracy);
     fclose(fid);
 end
 

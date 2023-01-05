@@ -1,0 +1,7 @@
+Larghezza immagine: 154
+Lunghezza immagine: 205
+Finestra: 7
+Step: 1
+Iterazioni: 300
+Tempo impiegato: 16.356 secondi
+Accuracy media: 0.904
