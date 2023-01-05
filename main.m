@@ -1,4 +1,4 @@
-clear;
+%clear;
 close all;
 addpath(genpath('support/'));
 [images, ~, paths2gt, labels_meaning] = readlists();
@@ -38,6 +38,9 @@ classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 %TODO imresize fatto bene
 accu=[];
 tp=[];
+cmr_all = [];
+cm_all = [];
+
 for i =  1 : 1: n
     im = im2double(imread(images{i}));
     im = rgb2gray(imresize(im, [154 205],"nearest"));
@@ -55,24 +58,27 @@ for i =  1 : 1: n
     test.values = res.descriptors;
     labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
     
-    
-        
     predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
         
     p = reshape(predicted, r, c, 1)>0;
     %p =imclose(p, strel('disk', 4));
 %     figure, show_result(im, p);
     bw = activecontour(im,p,300);
-    figure, imshow(bw);
+    %figure, imshow(bw);
 
     cm = confmat(logical(labels_vector), reshape(bw, size(predicted)));%confronto predizioni-gtruth
-    %figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
-    tp= [tp, cm.cm(2,2)];
+    
+    figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
+    cmr_all(:,:, i) = cm.cm_raw;
+    cm_all(:,:, i) = cm.cm;
+
+    %tp= [tp, cm.cm(2,2)];
     accu= [accu, cm.accuracy];
 end
 
-mean(tp,"all","omitnan")
-mean(accu,"all","omitnan")
+%mean(tp,"all","omitnan")
+compute_mean_confmat(accu, cm_all, cmr_all);
+
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
 %problema è che si perdeva gli oggetti!)
 
