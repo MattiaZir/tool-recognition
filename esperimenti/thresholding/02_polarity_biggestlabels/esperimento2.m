@@ -6,7 +6,7 @@ n = numel(images);
 mkdir(".\02_polarity_biggestlabels");
 
 
-for j = 1 : 9 : n
+for j = 1 : 1 : n
     im = im2gray(im2double(imread(images{j})));
 
     thresh = graythresh(im);
@@ -26,7 +26,7 @@ for j = 1 : 9 : n
 
     % se ci sono più di 10 labels, fai un "pruning"
     if(length(lblidx) > 10)
-        lblidx = lblidx(1:20);
+        lblidx = lblidx(1:10);
     end
 
     % crea la maschera per l'immagine
