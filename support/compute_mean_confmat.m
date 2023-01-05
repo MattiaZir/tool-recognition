@@ -13,6 +13,6 @@ end
 out_cm.accuracy = mean(accr,"all","omitnan");
 out_cm.cm_raw = round(mean(cmr_all, 3, "omitnan"));
 out_cm.cm = mean(cm_all, 3, "omitnan");
-out_cm.labels = ['sfondo', 'oggetto'];
+out_cm.labels = {'sfondo', 'oggetto'};
 
 end

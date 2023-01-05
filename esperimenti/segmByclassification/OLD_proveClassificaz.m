@@ -57,7 +57,7 @@ for i =  1 : 1: n
         
     p = reshape(predicted, r, c, 1)>0;
     p =imclose(p, strel('disk', 5));
-%     figure, show_result(im, p);
+%   figure, show_result(im, p);
     bw = activecontour(im,p,300);
     figure, imshow(bw);
 
@@ -72,9 +72,9 @@ mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
 %problema è che si perdeva gli oggetti!)
 
-%   5x5     ->  0.8726
-%   7x7     ->  0.8844
-%   10x10   ->  0.8624
+%   5x5     ->  0.8726 % fatto
+%   7x7     ->  0.8844 % fatto
+%   10x10   ->  0.8624 % fatto
 %   15x15   ->  0.8254
 
 %pic da 60 a 80 -> 0.1921   (k=3)
