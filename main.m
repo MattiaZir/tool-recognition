@@ -36,12 +36,9 @@ n = numel(images);
 
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 %TODO imresize fatto bene
-accu=[];
-tp=[];
-cmr_all = [];
 cm_all = [];
 
-for i =  1 : 1: n
+for i =  1 : n
     im = im2double(imread(images{i}));
     im = rgb2gray(imresize(im, [154 205],"nearest"));
     gt = imread(paths2gt{i});
@@ -68,17 +65,12 @@ for i =  1 : 1: n
 
     cm = confmat(logical(labels_vector), reshape(bw, size(predicted)));%confronto predizioni-gtruth
     
-    figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
-    cmr_all(:,:, i) = cm.cm_raw;
-    cm_all(:,:, i) = cm.cm;
+    %figure, show_confmat(cm.cm_raw, ["noskin", "skin"]);
 
-    %tp= [tp, cm.cm(2,2)];
-    accu= [accu, cm.accuracy];
+    cm_all = [cm_all cm];
 end
 
-%mean(tp,"all","omitnan")
-compute_mean_confmat(accu, cm_all, cmr_all);
-
+mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
 %problema è che si perdeva gli oggetti!)
 
