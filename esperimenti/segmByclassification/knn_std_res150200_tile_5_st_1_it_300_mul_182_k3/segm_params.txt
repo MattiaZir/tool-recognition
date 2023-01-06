@@ -3,7 +3,5 @@ Lunghezza immagine: 200
 Finestra: 5
 Step: 1
 Iterazioni: 300
-
-Grandezza Disco: 6
 Tempo impiegato: 15.408 secondi
 Accuracy media: 0.904
