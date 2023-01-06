@@ -12,12 +12,12 @@ cm_all = [];
 
 % parametri per segmentazione
 imsize = [150 200];
-winsize = 15;
+winsize = 5;
 stepsize = 1;
 iterations = 300;
 
 % parametri per trainer
-ksize = 1;
+ksize = 3;
 start_im = 1;
 end_im = 82;
 
@@ -28,16 +28,16 @@ gaussStr = "";
 medianStr = "";
 
 if isGauss
-    gaussSigma = 3;
+    gaussSigma = 1.5;
     gaussStr = sprintf("Sigma Gauss: %i\n", gaussSigma);
 end
 
 if isMedian
-    medianWin = [5 5];
+    medianWin = [3 3];
     medianStr = sprintf("Grandezza finestra mediana: [%i %i]\n", medianWin);
 end
 
-segmentationMethodName = sprintf("knn_std_resize%i%i_tile_%i_step_%i_iters_%i_multiple_%i%i_k%i_disk6", ...
+segmentationMethodName = sprintf("knn_std_res%i%i_tile_%i_st_%i_it_%i_mul_%i%i_k%i", ...
     imsize,winsize, stepsize, iterations,start_im,end_im,ksize);
 
 if salva==1
@@ -99,7 +99,7 @@ if salva==1
     fid = fopen(segmentationMethodName + "/segm_params.txt", 'wt');
     fprintf(fid, "Larghezza immagine: %i\nLunghezza immagine: " + ...
         "%i\nFinestra: %i\nStep: %i\n" + ...
-        "Iterazioni: %i\n\nGrandezza Disco: 6\n"+ ...
+        "Iterazioni: %i\n\n"+ ...
         gaussStr + medianStr +...
         "Tempo impiegato: %.3f secondi\n" + ...
         "Accuracy media: %.3f", ...

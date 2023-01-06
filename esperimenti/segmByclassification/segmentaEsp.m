@@ -13,6 +13,6 @@ function out = segmentaEsp(im, winsize, stepsize, aciterations)
     predicted = predict(classifier, test.values);%vettore di label: 0 e 1 (ho due classi)
         
     p = reshape(predicted, r, c, 1)>0;
-    p = imclose(p, strel('disk', 6));
+    %p = imclose(p, strel('disk', 6));
     out = activecontour(im,p, aciterations);
 end

@@ -1,0 +1,10 @@
+Larghezza immagine: 150
+Lunghezza immagine: 200
+Finestra: 15
+Step: 1
+Iterazioni: 300
+
+Grandezza Disco: 6
+Sigma Gauss: 3
+Tempo impiegato: 14.277 secondi
+Accuracy media: 0.828

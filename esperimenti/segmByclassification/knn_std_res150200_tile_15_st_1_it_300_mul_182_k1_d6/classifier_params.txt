@@ -1,0 +1,8 @@
+Larghezza immagine: 150
+Lunghezza immagine: 200
+Finestra: 15
+Step: 1
+Neighbors: 1
+Numero immagine partenza: 1
+Numero immagine fine: 82
+Tempo impiegato: 20.769 secondi
