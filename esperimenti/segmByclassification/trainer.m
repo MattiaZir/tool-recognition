@@ -1,6 +1,6 @@
 
 
-function trainer(imsize, winsize, stepsize, ksize, start_im, end_im)
+function trainer(imsize, winsize, stepsize, ksize, start_im, end_im, savedir)
     addpath(genpath('support/'));
     [images, ~, paths2gt, labels_meaning] = readlists();
     n = numel(images); 
@@ -32,7 +32,7 @@ function trainer(imsize, winsize, stepsize, ksize, start_im, end_im)
     save("classifier", "classifier");
     
     % qui salvo i parametri usati
-    fid = fopen('classifier_params.txt', 'wt');
+    fid = fopen(savedir + '/classifier_params.txt', 'wt');
     fprintf(fid, "Larghezza immagine: %i\nLunghezza immagine: %i\n" + ...
         "Finestra: %i\nStep: %i\nNeighbors: %i\nNumero immagine partenza: %i\n" + ...
         "Numero immagine fine: %i\nTempo impiegato: %.3f secondi", ...

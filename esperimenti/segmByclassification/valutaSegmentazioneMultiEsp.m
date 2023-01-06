@@ -10,34 +10,55 @@ res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
 salva = 1;
 cm_all = [];
 
-
-
 % parametri per segmentazione
-imsize = [154 205];
+imsize = [150 200];
 winsize = 15;
 stepsize = 1;
 iterations = 300;
 
 % parametri per trainer
-ksize = 3;
+ksize = 1;
 start_im = 1;
 end_im = 82;
 
+% parametri filtri
+isGauss = 0;
+isMedian = 0;
+gaussStr = "";
+medianStr = "";
 
-segmentationMethodName = sprintf('knn_std_tile_%i_step_%i_iters_%i_multiple_%i%i', ...
-    winsize, stepsize, iterations,start_im,end_im);
+if isGauss
+    gaussSigma = 3;
+    gaussStr = sprintf("Sigma Gauss: %i\n", gaussSigma);
+end
+
+if isMedian
+    medianWin = [5 5];
+    medianStr = sprintf("Grandezza finestra mediana: [%i %i]\n", medianWin);
+end
+
+segmentationMethodName = sprintf("knn_std_resize%i%i_tile_%i_step_%i_iters_%i_multiple_%i%i_k%i_disk6", ...
+    imsize,winsize, stepsize, iterations,start_im,end_im,ksize);
 
 if salva==1
     mkdir(segmentationMethodName);
 end
 
-trainer(imsize, winsize, stepsize, ksize, start_im, end_im);
+trainer(imsize, winsize, stepsize, ksize, start_im, end_im, segmentationMethodName);
 
 tic % timer
 % valuta la segmentazione
 for i = 1 : n
     im = im2double(rgb2gray(imread(images{i})));
     im = imresize(im, imsize,"nearest");
+
+    if isGauss
+        im = imgaussfilt(im, gaussSigma);
+    end
+
+    if isMedian
+        im = medfilt2(im, medianWin);
+    end
 
     bw = segmentaEsp(im, winsize, stepsize, iterations);
 
@@ -77,7 +98,9 @@ end
 if salva==1
     fid = fopen(segmentationMethodName + "/segm_params.txt", 'wt');
     fprintf(fid, "Larghezza immagine: %i\nLunghezza immagine: " + ...
-        "%i\nFinestra: %i\nStep: %i\nIterazioni: %i\n" + ...
+        "%i\nFinestra: %i\nStep: %i\n" + ...
+        "Iterazioni: %i\n\nGrandezza Disco: 6\n"+ ...
+        gaussStr + medianStr +...
         "Tempo impiegato: %.3f secondi\n" + ...
         "Accuracy media: %.3f", ...
         imsize, winsize, stepsize, iterations, timed,cm_mean.accuracy);

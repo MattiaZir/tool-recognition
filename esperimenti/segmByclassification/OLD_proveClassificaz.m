@@ -72,10 +72,10 @@ mean_cm = compute_mean_confmat(cm_all);
 %il valore qui sotto è True positive rate (TN è sempre stato alto, il
 %problema è che si perdeva gli oggetti!)
 
-%   5x5     ->  0.8726
-%   7x7     ->  0.8844
-%   10x10   ->  0.8624 
-%   15x15   ->  0.8254 
+%   5x5     ->  0.8726 % OKAY
+%   7x7     ->  0.8844 % OKAY
+%   10x10   ->  0.8624 % OKAY
+%   15x15   ->  0.8254 % OKAY
 
 %pic da 60 a 80 -> 0.1921   (k=3)
 
@@ -87,8 +87,8 @@ mean_cm = compute_mean_confmat(cm_all);
 %pic da 1 a 82  ->  0.9800 0.9611  k=1
 
 %da qui in giù testo la predizione sulle pic con + obj
-%k=1 5x5 pic multiple   0.2099
-%k=1 15x15 pic multiple   0.3493
+%k=1 5x5 pic multiple   0.2099 %fatto
+%k=1 15x15 pic multiple   0.3493 % fatto
 %k=1 15x15 imresize=0.2 pic multiple   0.2479
 %k=1 15x15 imresize=0.3 pic multiple   0.2065
 %k=1 15x15 imresize=0.07 pic multiple   0.3589
@@ -96,7 +96,8 @@ mean_cm = compute_mean_confmat(cm_all);
 %k=3 15x15 imresize=0.2 pic multiple   0.1761
 
 %k=3 15x15 imresize=[150 200] pic multiple   0.4390
-%k=3 15x15 imresize=[150 200] +snake e imclose=6 pic multiple  0.9027 accuracy 0.9025
+%k=3 15x15 imresize=[150 200] +snake e imclose=6 pic multiple  0.9027
+%accuracy 0.9025 FATTO
 %k=3 15x15 imresize=[150 200] +filtraggio aggressivo +snake e imclose=6 pic multiple accuracy 0.8069
 %k=3 15x15 imresize=[150 200] +filtraggio leggero +snake e imclose=6 pic multiple TP 0.8897 accuracy 0.8493
 %k=1 15x15 imresize=[150 200] +snake e imclose=6 pic multiple  0.9141 e 
