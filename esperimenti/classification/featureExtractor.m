@@ -12,7 +12,7 @@ for i =  1 : n %test set
 
     bw = segmentaViaClassificazione(img);
     cc = labelingCompConn(bw);
-    %figure, imagesc(cc);
+    figure, imshow(labeloverlay(img, cc));
 
     % Calcolo le proprietà delle regioni
     cc_props = regionprops(cc, ["Area", "Perimeter", "BoundingBox", "EulerNumber", "Centroid"]);
@@ -29,7 +29,7 @@ for k = 1:length(saved_stats)
     curr = saved_stats(k);
     
     for lab = 1:length(curr.props)
-        T(counter).imPath = curr.imPath;
+        T(counter).imPath = string(curr.imPath);
         T(counter).label = lab;
         T(counter).Area = curr.props(lab).Area;
         T(counter).Perimeter = curr.props(lab).Perimeter;
