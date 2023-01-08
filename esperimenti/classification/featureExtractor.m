@@ -31,12 +31,14 @@ for i =  1 : n %test set
     cc_props = regionprops(cc, ["Area", "Perimeter", "BoundingBox", ...
         "EulerNumber", "Centroid", "Eccentricity"]);
     
-    tmp.imPath = images{i}; % path all'immagine originale
-    tmp.props = cc_props; % proprietà
-    tmp.label = string(symbolicLabels{i, 1});
-    tmp.moments = hu_moments(cc, cc_props.Centroid);
-
-    saved_stats = [saved_stats; tmp];
+    if(length(unique(cc)) > 1) % se è solo nera non inserirla nemmeno
+        tmp.imPath = images{i}; % path all'immagine originale
+        tmp.props = cc_props; % proprietà
+        tmp.label = string(symbolicLabels{i, 1});
+        tmp.moments = hu_moments(cc, cc_props.Centroid);
+    
+        saved_stats = [saved_stats; tmp];
+    end
 end
 
 %%

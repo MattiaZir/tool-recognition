@@ -1,62 +1,63 @@
 % Non sono sicuro funzioni, è orribile
 function out = hu_moments(region, centroid)
-    nm = zeros(3);
-    mu00 = calculateMoment([0 0], region, 0, 0);
+ORDER_00 = [0 0];
+ORDER_10 = [1 0];
+ORDER_01 = [0 1];
+ORDER_11 = [1 1];
+ORDER_20 = [2 0];
+ORDER_02 = [0 2];
+ORDER_21 = [2 1];
+ORDER_12 = [1 2];
+ORDER_30 = [3 0];
+ORDER_03 = [0 3];
 
-    mu10 = calculateMoment([1 0], region, 0, 0);
-    mu01= calculateMoment([0 1], region, 0, 0);
-    mu11 = calculateMoment([1 1], region, 0, 0);
-    mu20 = calculateMoment([2 0], region, 0, 0);
-    mu02 = calculateMoment([0 2], region, 0, 0);
-    mu21 = calculateMoment([2 1], region, 0, 0);
-    mu12 = calculateMoment([1 2], region, 0, 0);
-    mu30 = calculateMoment([3 0], region, 0, 0);
-    mu03 = calculateMoment([0 3], region, 0, 0);
+xMean = centroid(1);
+yMean = centroid(2);
+mu00 = calculateMoment(ORDER_00, region, 0, 0);
 
-    % ricalcolo con le medie e normalizzo
-    xMean = centroid(1);
-    yMean = centroid(2);
+% normalizzazione dei momenti (e calcolo direttamente)
+% primo ordine
 
-    % normalizzazione
-    % primo ordine
-    mu00_gamma = mu00^((1/2)+1);
-    mu10 = calculateMoment([1 0], region, xMean, yMean)/mu00_gamma;
-    mu01 = calculateMoment([0 1], region, xMean, yMean)/mu00_gamma;
-    % secondo ordine
-    mu00_gamma = mu00^(2);
-    mu11 = calculateMoment([1 1], region, xMean, yMean)/mu00_gamma;
-    mu20 = calculateMoment([2 0], region, xMean, yMean)/mu00_gamma;
-    mu02 = calculateMoment([0 2], region, xMean, yMean)/mu00_gamma;
-    
-    % terzo ordine
-    mu00_gamma = mu00^(3);
-    mu21 = calculateMoment([2 1], region, xMean, yMean)/mu00_gamma;
-    mu12 = calculateMoment([1 2], region, xMean, yMean)/mu00_gamma;
-    mu30 = calculateMoment([3 0], region, xMean, yMean)/mu00_gamma;
-    mu03 = calculateMoment([0 3], region, xMean, yMean)/mu00_gamma;
 
-    %Calcolo i momenti di hu
-    
-    h(1) = mu20 + mu02; 
-    h(2) = (mu20 - mu02)^2 + 4*(mu11)^2; 
-    h(3) = (mu30 - 3*mu12)^2 + (3*mu21 - mu03)^2;
-    h(4) = (mu30 + mu12)^2 + (mu21 + mu03)^2; %dalla prossima ci si diverte
-    h(5) = (mu30 - 3*mu12)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*mu21 - mu03)*(mu21 + mu03)*(3*(mu30 + mu12)^2 - (mu21 + mu03)^2); %dovrebbe essere giusta
-    h(6) = (mu20 - mu02)*((mu30 + mu12)^2-(mu21 + mu03)^2)+ 4*mu11*(mu30 + mu12)*(mu21 + mu03);
-    h(7) = (3*mu21 - mu03)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*mu12 - mu30)*(mu21 + mu03)*(3*(mu30 + mu12)^2 - (mu21 + mu03)^2);
+mu00_gamma = power(mu00, (1/2)+1);
+mu10 = calculateMoment(ORDER_10, region, xMean, yMean)/mu00_gamma;
+mu01 = calculateMoment(ORDER_01, region, xMean, yMean)/mu00_gamma;
+% secondo ordine
+mu00_gamma = mu00^(2);
+mu11 = calculateMoment(ORDER_11, region, xMean, yMean)/mu00_gamma;
+mu20 = calculateMoment(ORDER_20, region, xMean, yMean)/mu00_gamma;
+mu02 = calculateMoment(ORDER_02, region, xMean, yMean)/mu00_gamma;
 
-    out = h;
+% terzo ordine
+mu00_gamma = mu00^(3);
+mu21 = calculateMoment(ORDER_21, region, xMean, yMean)/mu00_gamma;
+mu12 = calculateMoment(ORDER_12, region, xMean, yMean)/mu00_gamma;
+mu30 = calculateMoment(ORDER_30, region, xMean, yMean)/mu00_gamma;
+mu03 = calculateMoment(ORDER_03, region, xMean, yMean)/mu00_gamma;
+
+%Calcolo i momenti di hu
+
+h(1) = mu20 + mu02;
+h(2) = (mu20 - mu02)^2 + 4*(mu11)^2;
+h(3) = (mu30 - 3*mu12)^2 + (3*mu21 - mu03)^2;
+h(4) = (mu30 + mu12)^2 + (mu21 + mu03)^2; %dalla prossima ci si diverte
+h(5) = (mu30 - 3*mu12)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*mu21 - mu03)*(mu21 + mu03)*(3*(mu30 + mu12)^2 - (mu21 + mu03)^2); %dovrebbe essere giusta
+h(6) = (mu20 - mu02)*((mu30 + mu12)^2-(mu21 + mu03)^2)+ 4*mu11*(mu30 + mu12)*(mu21 + mu03);
+h(7) = (3*mu21 - mu03)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*mu12 - mu30)*(mu21 + mu03)*(3*(mu30 + mu12)^2 - (mu21 + mu03)^2);
+
+out = h;
 end
 
 function moment = calculateMoment(orderArr, region, xm, ym)
-    vector = region(:);
-    [~, nCol] = size(region);
-    moment = 0;
+vector = region(:);
+[~, nCol] = size(region);
+moment = 0;
 
-    for px = 1:length(vector)
-        x = ceil(px / nCol); % trova indice riga
-        y = px - (x - 1) * nCol; % trova indice colonna
-        
-        moment = moment + (((x - xm)^orderArr(1)) * ((y - ym)^orderArr(2))*region(px));
-    end
+for px = 1:length(vector)
+    x = ceil(px / nCol); % trova indice riga
+    y = px - (x - 1) * nCol; % trova indice colonna
+
+    moment = moment + (power(x - xm, orderArr(1)) * ...
+        power(y - ym, orderArr(2))*region(px));
+end
 end
