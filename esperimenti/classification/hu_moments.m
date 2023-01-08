@@ -1,5 +1,5 @@
 % Non sono sicuro funzioni, è orribile
-function out = hu_moments(region)
+function out = hu_moments(region, centroid)
     nm = zeros(3);
     mu00 = calculateMoment([0 0], region, 0, 0);
 
@@ -14,8 +14,8 @@ function out = hu_moments(region)
     mu03 = calculateMoment([0 3], region, 0, 0);
 
     % ricalcolo con le medie e normalizzo
-    xMean = mu10/mu00;
-    yMean = mu01/mu00;
+    xMean = centroid(1);
+    yMean = centroid(2);
 
     % normalizzazione
     % primo ordine
@@ -57,6 +57,6 @@ function moment = calculateMoment(orderArr, region, xm, ym)
         x = ceil(px / nCol); % trova indice riga
         y = px - (x - 1) * nCol; % trova indice colonna
         
-        moment = moment + ((x - xm)^orderArr(1) * (y - ym)^orderArr(2)*region(px));
+        moment = moment + (((x - xm)^orderArr(1)) * ((y - ym)^orderArr(2))*region(px));
     end
 end

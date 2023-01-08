@@ -4,7 +4,7 @@ function out = labelingCompConn(bw)
     
     
     [L,N] = bwlabel(bw,8);%labelling vero e proprio
-    L = imclearborder(L,4);%tolgo gli obj che toccano i bordi
+    %L = imclearborder(L,4);%tolgo gli obj che toccano i bordi
     out = L;
 
 end
