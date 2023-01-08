@@ -24,6 +24,14 @@ for k = 1:length(saved_stats)
         T(counter).Rectangularity = (tmp.BoundingBox(1,3)*tmp.BoundingBox(1,4))/tmp.Area
         T(counter).Eccentricity = tmp.Eccentricity;
 
+        T(counter).m1 = curr.moments(1);
+        T(counter).m2 = curr.moments(2);
+        T(counter).m3 = curr.moments(3);
+        T(counter).m4 = curr.moments(4);
+        T(counter).m5 = curr.moments(5);
+        T(counter).m6 = curr.moments(6);
+        T(counter).m7 = curr.moments(7);
+
         counter = counter + 1;
     end
 end

@@ -34,6 +34,7 @@ for i =  1 : n %test set
     tmp.imPath = images{i}; % path all'immagine originale
     tmp.props = cc_props; % proprietà
     tmp.label = string(symbolicLabels{i, 1});
+    tmp.moments = hu_moments(cc);
 
     saved_stats = [saved_stats; tmp];
 end
