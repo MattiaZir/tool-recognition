@@ -1,4 +1,14 @@
 %clear
+
+%features:
+% area/2p^2 % fatto
+% rapporto assi BB % fatto
+% rettangolarità %fatto
+% num di eulero %fatto
+% momenti %da fare
+% albero concavità(difficile) %da fare
+% signature outer bound % da fare
+
 close all;
 addpath(genpath('support/'));
 [images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
@@ -20,9 +30,7 @@ for i =  1 : n %test set
     
     tmp.imPath = images{i}; % path all'immagine originale
     tmp.props = cc_props; % proprietà
-
-    saved_stats = [saved_stats; tmp]; % le accodo ad un array di celle
 end
 
 %%
-creaTabellaDaRegionProps(saved_stats);
+T = creaTabellaDaRegionProps(saved_stats);
