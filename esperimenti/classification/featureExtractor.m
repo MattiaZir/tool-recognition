@@ -1,4 +1,4 @@
-%clear
+clear
 
 %features:
 % area/2p^2 % fatto
@@ -11,25 +11,31 @@
 
 close all;
 addpath(genpath('support/'));
-[images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
+[images, symbolicLabels, paths2gt, labels_meaning] = readlists();
 n = numel(images);
 saved_stats = [];
+
 
 
 for i =  1 : n %test set
     im = im2double(imread(images{i}));
     img = rgb2gray(imresize(im, [154 205],"nearest"));
-
-    bw = segmentaViaClassificazione(img);
+    bw = imread(paths2gt{i}) > 0;
+    bw = imresize(bw, [154 205]);
+    
+    
     cc = labelingCompConn(bw);
     %figure, imshow(labeloverlay(img, cc));
 
     % Calcolo le proprietà delle regioni
     cc_props = regionprops(cc, ["Area", "Perimeter", "BoundingBox", ...
-        "EulerNumber", "Centroid"]);
+        "EulerNumber", "Centroid", "Eccentricity"]);
     
     tmp.imPath = images{i}; % path all'immagine originale
     tmp.props = cc_props; % proprietà
+    tmp.label = string(symbolicLabels{i, 1});
+
+    saved_stats = [saved_stats; tmp];
 end
 
 %%

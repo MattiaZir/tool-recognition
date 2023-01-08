@@ -64,11 +64,18 @@ function [images, symbolicLabels, paths2gt, labels_meaning] = readlists(type)
         symbolicLabels = {};
 
         labels_meaning = {
-            {0, 'sfondo'},
-            {1, 'forbice'},
-            {2, 'metro'},
-            {3, 'pinza'},
-%da finire TODO TODO
+            {0, 'sfondo'};
+            {1, 'forbice'};
+            {2, 'metro'};
+            {3, 'pinza'};
+            {4, 'chiave'};
+            {5, 'martello'};
+            {6, 'cacciavite'};
+            {7, 'avvitatore'};
+            {8, 'nastroadesivo'};
+            {9, 'pappagallo'};
+            {10, 'lima'};
+            {11, 'pennarello'}
         };
     end
 end
