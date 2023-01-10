@@ -45,8 +45,12 @@ h(5) = (mu30 - 3*mu12)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*
 h(6) = (mu20 - mu02)*((mu30 + mu12)^2-(mu21 + mu03)^2)+ 4*mu11*(mu30 + mu12)*(mu21 + mu03);
 h(7) = (3*mu21 - mu03)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*mu12 - mu30)*(mu21 + mu03)*(3*(mu30 + mu12)^2 - (mu21 + mu03)^2);
 
-out = h;
+% normalizzo il vettore (-sign(h) inverte i segni, poi lo moltiplica per il
+% log(10) del valore assoluto di h, si chiama "normalizzazione
+% logaritmico-modulare
+out = -sign(h).*log10(abs(h));
 end
+
 
 function moment = calculateMoment(orderArr, region, xm, ym)
 vector = region(:);

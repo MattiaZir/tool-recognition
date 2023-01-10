@@ -29,7 +29,8 @@ for i =  1 : n %test set
 
     % Calcolo le proprietà delle regioni
     cc_props = regionprops(cc, ["Area", "Perimeter", "BoundingBox", ...
-        "EulerNumber", "Centroid", "Eccentricity"]);
+        "EulerNumber", "Centroid", "Eccentricity", "Circularity", "Solidity"] ...
+        "");
     
     if(length(unique(cc)) > 1) % se è solo nera non inserirla nemmeno
         tmp.imPath = images{i}; % path all'immagine originale
