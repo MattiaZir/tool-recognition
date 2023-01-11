@@ -1,3 +1,7 @@
+% Input:
+%   region: immagine binaria che rappresenta la regione su cui calcolare le proprietà.
+% Output:
+%   out : tabella con le proprietà e i momenti della regione.
 function out = extractor(region)    
     % Calcolo le proprietà delle regioni
     cc_props = regionprops(region, ["Area", "Perimeter", "BoundingBox", ...
