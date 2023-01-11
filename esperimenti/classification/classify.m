@@ -6,11 +6,13 @@ n = numel(images);
 load('classifier');
 
 for i =  1 : n %test set
-    im = im2double(imread(images{i}));
+    im = im2double(imresize(imread(images{i}), [154*4 205*4]));
     img = rgb2gray(imresize(im, [154 205],"nearest"));
-    bw = segmentaViaClassificazione(img);
+    %bw = segmentaViaClassificazione(img);
+    bw = imread(paths2gt{i}) > 0;
+    bw = imresize(bw, [154 205]);
     cc = labelingCompConn(bw);
-    im_res_ratio = size(im, 1:2)/[154 205];
+    im_res_ratio = 4;
 
     cc_unique = unique(cc);
 
@@ -25,7 +27,7 @@ for i =  1 : n %test set
         objs = [objs; obj];
     end
 
-    annotated = insertObjectAnnotation(im, 'rectangle', bBox.*im_res_ratio, objs, "TextBoxOpacity", 0.9, FontSize=18);
+    annotated = insertObjectAnnotation(im, 'rectangle', bBox.*im_res_ratio, objs, "TextBoxOpacity", 0.9, FontSize=12);
 
     figure, imshow(annotated);
 end
