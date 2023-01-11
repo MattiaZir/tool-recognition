@@ -1,7 +1,7 @@
 function out = segmentaViaClassificazione(im)
     [r c ch] = size(im);
 
-    load("classifier");
+    load("segmentation");
     res = compute_local_descriptors(im, 30, 15, @compute_lbp);%prima era 30 15
 
     res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);           

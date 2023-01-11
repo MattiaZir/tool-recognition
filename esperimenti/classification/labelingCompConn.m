@@ -1,7 +1,7 @@
-function out = labelingCompConn(bw)
+function [L, N] = labelingCompConn(bw)
 
     
-    [L,N] = bwlabel(bwareaopen(bw, 50),8);
+    [L,N] = bwlabel(bwareaopen(bw, 100),8);
 %     numPixelsPerCC = histcounts(L);%alla posiz (1) c'è il count di pixel dell'obj 0!! non 1
 % 
 %     %tolgo gli obj piccoli
@@ -19,6 +19,4 @@ function out = labelingCompConn(bw)
     
     %L = imclearborder(L,4);%tolgo gli obj che toccano i bordi
 %     figure, imshow(L);
-    out = L;
-
 end
