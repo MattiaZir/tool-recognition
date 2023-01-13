@@ -1,9 +1,10 @@
 
 function [bBox, objs] = classify(cc)
+addpath(genpath('support/'));
 load('objClassifier');
 
 mdl = objClassifier.ClassificationTree;
-labelT = 0.85; % threshold dell'oggetto, se è < del valore, è "unknown"
+labelT = 0.66; % threshold dell'oggetto, se è < del valore, è "unknown"
 cc_unique = unique(cc);
 bBox = [];
 objs = [];

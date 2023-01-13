@@ -9,5 +9,9 @@ for i =  8 : n %test set
     im = rgb2gray(imresize(im, [154 205],"nearest"));
     bw = segmentaViaClassificazione(im);
     cc = labelingCompConn(bw);
-    figure, imagesc(cc);
+    [bBoxLocs, lbls] = classify(cc);
+    
+    fig = insertObjectAnnotation(im, "rectangle", bBoxLocs, lbls);
+
+    figure, imshow(fig);
 end
