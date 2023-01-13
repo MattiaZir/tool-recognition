@@ -4,6 +4,9 @@ addpath(genpath('support/'));
 [images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
 n = numel(images);
 load('classifier');
+mdl = objClassifier.ClassificationTree;
+mdl.ClassNames(end + 1) = "unknown";
+mdl.ClassCount = mdl.classCount+1;
 % Preferirei aggiungere delle classi di "no object" piuttosto che usare
 % una percentuale del genere, però meglio di nulla
 labelT = 0.85; % threshold dell'oggetto, se è < del valore, è "unknown"
@@ -28,14 +31,12 @@ for i =  1 : n %test set
         tmp = ismember(cc, cc_unique(k)); % prende solo una delle regioni
         T = splitvars(extractor(tmp)); %splitto gli hu_moments per dopo
 
-        mdl = objClassifier.ClassificationTree;
-        [label, prob] = predict(objClassifier.ClassificationTree, splitvars(T));
+        
+        [label, prob] = predict(mdl, splitvars(T));
         maxProb = max(prob);
         
         if(maxProb < labelT)
-            label = sprintf("unknown %0.1f%%", maxProb*100);
-        else
-            label = sprintf("%s %0.1f%%", label{1}, maxProb*100);
+            label = "unknown";
         end
         
         % proprietà per il labeling sull'immagine
