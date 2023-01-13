@@ -17,6 +17,6 @@ function [L, N] = labelingCompConn(bw)
     
     
     
-    %L = imclearborder(L,4);%tolgo gli obj che toccano i bordi
+    L = imclearborder(L,4);%tolgo gli obj che toccano i bordi
 %     figure, imshow(L);
 end
