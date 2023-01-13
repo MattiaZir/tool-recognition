@@ -72,10 +72,9 @@ function [images, symbolicLabels, paths2gt, labels_meaning] = readlists(type)
             {5, 'martello'};
             {6, 'cacciavite'};
             {7, 'avvitatore'};
-            {8, 'nastroadesivo'};
-            {9, 'pappagallo'};
-            {10, 'lima'};
-            {11, 'pennarello'}
+            {8, 'pappagallo'};
+            {9, 'lima'};
+            {10, 'pennarello'}
         };
     end
 end
