@@ -4,6 +4,9 @@ addpath(genpath('support/'));
 [images, symbolicLabels, paths2gt, labels_meaning] = readlists('multiple');
 n = numel(images);
 load('classifier');
+% Preferirei aggiungere delle classi di "no object" piuttosto che usare
+% una percentuale del genere, però meglio di nulla
+labelT = 0.85; % threshold dell'oggetto, se è < del valore, è "unknown"
 
 % Questa è da generalizzare, così da inserire direttamente nel main
 % inoltre sarebbe utile cercare di migliorare la segmentazione e magari
@@ -23,14 +26,21 @@ for i =  1 : n %test set
     objs = [];
     for k = 2:length(cc_unique) % parte da 2 perché 1 corrisponde allo sfondo
         tmp = ismember(cc, cc_unique(k)); % prende solo una delle regioni
-        T = extractor(tmp);
-        % predictFcn fa la previsione in base alla tabella data
-        % predict() vorrebbe invece il classificatore e un array
-        obj = trainedModel.predictFcn(T); 
+        T = splitvars(extractor(tmp)); %splitto gli hu_moments per dopo
 
+        mdl = objClassifier.ClassificationTree;
+        [label, prob] = predict(objClassifier.ClassificationTree, splitvars(T));
+        maxProb = max(prob);
+        
+        if(maxProb < labelT)
+            label = sprintf("unknown %0.1f%%", maxProb*100);
+        else
+            label = sprintf("%s %0.1f%%", label{1}, maxProb*100);
+        end
+        
         % proprietà per il labeling sull'immagine
         bBox = [bBox; regionprops(tmp, "BoundingBox").BoundingBox];
-        objs = [objs; obj];
+        objs = [objs; label];
     end
 
     annotated = insertObjectAnnotation(im, 'rectangle', ...
