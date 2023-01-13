@@ -1,8 +1,8 @@
 # README
 Questo e' un breve README per spiegare cosa contiene la cartella e come utilizzare i suoi contenuti.
 
-### classifier.mat
-Il classificatore e' stato trovato tramite il classification learner, al suo interno ci sono tutte le informazioni del caso, non e' stato modificato per ora e tutti gli iperparametri sono stati scelti direttamente dal classification learner sulla base dell'80% dei dati caricati nella tabella.
+### classifier.mat <-- DIVERSO DAL segmentation.mat (che è classifier.mat nel /support)
+Il classificatore e' stato trovato tramite il classification learner, al suo interno ci sono tutte le informazioni del caso, non e' stato modificato per ora e tutti gli iperparametri sono stati scelti direttamente dal classification learner sulla base dell'90% dei dati caricati nella tabella.
 
 Alcune delle immagini, dato che toccavano i bordi, sono state rimosse dal classificatore.
 
