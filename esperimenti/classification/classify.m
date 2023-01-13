@@ -5,8 +5,6 @@ addpath(genpath('support/'));
 n = numel(images);
 load('classifier');
 mdl = objClassifier.ClassificationTree;
-mdl.ClassNames(end + 1) = "unknown";
-mdl.ClassCount = mdl.classCount+1;
 % Preferirei aggiungere delle classi di "no object" piuttosto che usare
 % una percentuale del genere, però meglio di nulla
 labelT = 0.85; % threshold dell'oggetto, se è < del valore, è "unknown"
