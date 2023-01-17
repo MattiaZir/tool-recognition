@@ -19,8 +19,8 @@ addpath(genpath('support/'));
     [rows ~] = size(cc_props);
     if(rows>=2)
         rigaRegPiuGrande = find(cc_props.Area == max(cc_props.Area));
-        cc_props = cc_props(rigaRegPiuGrande,:);
-        45
+        cc_props = cc_props(rigaRegPiuGrande,:);   
+        
     end
 
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
