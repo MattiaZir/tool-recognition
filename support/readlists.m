@@ -40,7 +40,7 @@ function [images, symbolicLabels, paths2gt, labels_meaning] = readlists(type)
         l = textscan(f,'%s');
         fclose(f);
         symbolicLabels = l{:};
-
+        
     elseif strcmp(type, 'multiple')
 
         f=fopen('composite_images.list');

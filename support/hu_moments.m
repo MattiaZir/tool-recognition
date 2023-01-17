@@ -1,5 +1,6 @@
 % Non sono sicuro funzioni, è orribile
 function out = hu_moments(region, centroid)
+
 ORDER_00 = [0 0];
 ORDER_10 = [1 0];
 ORDER_01 = [0 1];

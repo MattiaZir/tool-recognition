@@ -3,7 +3,6 @@ close all;
 addpath(genpath('support/'));
 [images, ~, paths2gt, labels_meaning] = readlists();
 n = numel(images); 
-%classificatore knn per trovare i pixel di una immagine che sono di obj
 
 train_values=[];
 train_labels=[];

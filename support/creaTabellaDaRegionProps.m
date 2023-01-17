@@ -1,4 +1,3 @@
-
 %TODO: Renderla più generale
 function out =  creaTabellaDaRegionProps(saved_stats)
 T = struct;
@@ -6,12 +5,12 @@ counter = 1;
 
 for k = 1:length(saved_stats)
     curr = saved_stats(k);
-
+    curr
     for lab = 1:length(curr.props)
         tmp = curr.props(lab);
         %T(counter).object = curr.label;
         T(counter).EulerNumber = tmp.EulerNumber;
-        T(counter).BBox_ratio = tmp.BoundingBox(1,3) / tmp.BoundingBox(1,4);
+        T(counter).BBox_ratio = tmp.BoundingBox(1,3) / tmp.BoundingBox(1,4); % rapporto tra  width e  height
         T(counter).APSquared = tmp.Area/(tmp.Perimeter^2);
         T(counter).Rectangularity = (tmp.BoundingBox(1,3)*tmp.BoundingBox(1,4))/tmp.Area;
         T(counter).Eccentricity = tmp.Eccentricity;
