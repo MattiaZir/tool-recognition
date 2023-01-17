@@ -10,9 +10,9 @@ for i =  1 : n-8 %test set
     img = rgb2gray(imresize(im, scale_res, "nearest"));
     bw = segmentaViaClassificazione(img);
      cc = labelingCompConn(bw);
-%      figure, imagesc(cc);
-    [bBoxLocs, lbls] = classificaOggetti(cc);
-    % Questo crea l'immagine con le dimensioni originali e a colori
-    fig = mostraGuessedLabels(im, scale_res, bBoxLocs, lbls);
-    figure, imshow(fig);
+    [bBoxLocs, labels] = classificaOggetti(cc, labels_meaning);
+%     labels = lbls{:};
+    for j= 1 : numel(unique(labels))
+        j
+    end
 end

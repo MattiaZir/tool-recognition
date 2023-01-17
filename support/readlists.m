@@ -75,6 +75,7 @@ function [images, symbolicLabels, paths2gt, labels_meaning] = readlists(type)
             {8, 'pappagallo'};
             {9, 'lima'};
             {10, 'pennarello'}
+            {11, 'sconosciuto'}
         };
     end
 end
