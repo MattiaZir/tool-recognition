@@ -13,14 +13,14 @@ res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
 % esperimenti/segmentationMethodName/multiple/ i 3 grafici e 'grouped' serializzato.
 segmentationMethodName = 'kmeans su lbp tile 30x30 step 15/multiple';
 salva = 0;
-
-for i = 1 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
-    im = im2double(rgb2gray(imread(images{i})));
-    im = medfilt2(im, [10 10]);
-    im = imfilter(im, fspecial("gaussian", 10, 1.8));
+scale_res = [154 205];
+for i = 1 : n 
+    
+    im = im2double(imread(images{i}));
+    im = rgb2gray(imresize(im, scale_res, "nearest"));
 
     
-    bw = segmenta(im);
+    bw = segmentaViaClassificazione(im);
 
 
     figure,subplot(1,3,1), imshow(im);
@@ -28,8 +28,7 @@ for i = 1 : n % solo 1 pic ha la gt quindi... 1:1 e non 1:n
     bw = imclose(bw, strel('disk',20));
     subplot(1,3,2), imshow(bw);
 
-    gt = imread(paths2gt{i}) >0;
-    
+    gt = imresize(imread(paths2gt{i}), scale_res, "nearest") >0;    
     
     subplot(1,3,3), imshowpair(bw, gt,'falsecolor');
     diff = compareMasksV2(bw, gt); %numero di pixel di oggetti considerati sfondo + viceversa

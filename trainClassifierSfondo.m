@@ -3,16 +3,17 @@ close all;
 addpath(genpath('support/'));
 [images, ~, paths2gt, labels_meaning] = readlists();
 n = numel(images); 
-
+scale_res = [154 205];
 train_values=[];
 train_labels=[];
 
-for i = 1 : 1: 82
+for i = 1 : 1: n
     im = im2double(imread(images{i}));
-    im = rgb2gray(imresize(im, [154 205],"nearest"));
+    im = rgb2gray(imresize(im, scale_res,"nearest"));
     gt = imread(paths2gt{i});
-    gt = imresize(gt(:,:,1), [154 205],"nearest")>0;    
+    gt = imresize(gt(:,:,1), scale_res,"nearest")>0;    
     gt = uint8(gt);
+    
     [r c ~] = size(im);
     res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);    
     [rs,cs,ch] = size(res.descriptors); % 12288 x 59 x 1
@@ -22,5 +23,6 @@ for i = 1 : 1: 82
 
 end
 
-classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
-save("classifier", "classifier");
+classifierSfondo = fitcknn(train_values, train_labels, "NumNeighbors", 3);
+save("classifierSfondo", "classifierSfondo");
+455

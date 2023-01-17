@@ -37,7 +37,7 @@ n = numel(images);
 classifier = fitcknn(train_values, train_labels, "NumNeighbors", 3);
 
 cm_all = [];
-for i =  1 : 1: n
+for i =  1 : 1: n/2
     im = im2double(imread(images{i}));
     im = rgb2gray(imresize(im, [154 205],"nearest"));
     gt = imread(paths2gt{i});
