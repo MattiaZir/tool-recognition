@@ -1,8 +1,8 @@
-function [bBox, objs] = classify(cc)
+% input: l' immagine delle n comp connesse, n = unique(cc)-1
+function [bBox, objs] = classificaOggetti(cc)
     addpath(genpath('support/'));
-    load('objClassifier');
+    load('classifierOggetti');
     
-    mdl = objClassifier.ClassificationTree;
     labelT = 0.66; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     bBox = [];
@@ -11,7 +11,7 @@ function [bBox, objs] = classify(cc)
     for k = 2:length(cc_unique) % parte da 2 perché 1 corrisponde allo sfondo
         tmp = ismember(cc, cc_unique(k)); % prende solo una delle regioni
         T = splitvars(extractor(tmp)); %splitto gli hu_moments per dopo
-        [label, prob] = predict(mdl, splitvars(T));
+        [label, prob] = predict(classifierOggetti, splitvars(T));
     
         if(max(prob) < labelT)
             label = "unknown";

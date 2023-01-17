@@ -1,5 +1,5 @@
 function out = labelingCompConn(bw)
-    bw = imclose(bw, strel('disk', 3));
+%     bw = imclose(bw, strel('disk', 3));
     bw = bwareaopen(bw, 50); %removes all connected components (objects) that have fewer than P pixels(2nd parameter)        
     
     

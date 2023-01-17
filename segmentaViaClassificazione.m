@@ -12,5 +12,5 @@ function out = segmentaViaClassificazione(im)
     
     p = activecontour(im,p,300);
 
-    out = imclose(p, strel('disk',4));
+    out = imclose(p, strel('disk',5));
 end
