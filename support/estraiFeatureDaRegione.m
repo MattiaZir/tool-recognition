@@ -2,7 +2,7 @@
 %   region: immagine binaria che è la regione su cui calcolare le proprietà.
 % Output:
 %   out : tabella con le proprietà e i momenti della regione.
-function out = extractor(region)    
+function out = estraiFeatureDaRegione(region)    
     % Calcolo le proprietà delle regioni
 
 addpath(genpath('support/'));

@@ -15,6 +15,6 @@ for i =  1 : 5 %test set
     figure, imagesc(immagineLayerOggettiTrovati);%valori uguali qui <-->classi/label uguali
     fig = mostraGuessedLabels(imHD, scale_res, cetriOggetti, labelsObjs);
     figure, imshow(fig);
-    cetriOggetti
+    
     
 end

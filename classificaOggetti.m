@@ -1,4 +1,11 @@
-% input: l' immagine delle n comp connesse, n = unique(cc)-1
+% input: 
+% cc:   l' immagine delle n comp connesse, n = unique(cc)-1
+% labels_meaning: mappa id <--> stringa di significato
+% output: 
+% cetriOggetti: tabella di n righe e 2 colonne; n= num oggetti/cc; cols: x,y
+% del centroide di quell'oggetto di quella riga
+% cetriOggetti: cetriOggetti è un array di label (stringhe)
+% immagineLayerOggetti: è una pic con a 1 i pixel dove ritiene ci sia un  forbice a 2 i pixel dove c'è un metro ...
 function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc, labels_meaning)
     addpath(genpath('support/'));
     load('classifierOggetti');
@@ -12,7 +19,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
 
     for i = 2:length(cc_unique) %il primo elem di cc_unique è 0 ->lo sfondo
         regione = cc==cc_unique(i);
-        featuresEstratte = extractor(regione);
+        featuresEstratte = estraiFeatureDaRegione(regione);
         cetroOggetto = featuresEstratte.Centroid;
         cc_unique(i)
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
