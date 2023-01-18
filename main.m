@@ -5,14 +5,16 @@ addpath(genpath('support/'));
 n = numel(images); 
 scale_res = [154 205];
 
-for i =  1 : n-8 %test set
-    im = im2double(imread(images{i}));
-    img = rgb2gray(imresize(im, scale_res, "nearest"));
+for i =  1 : 5 %test set
+    imHD = im2double(imread(images{i}));
+    img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
     bw = segmentaViaClassificazione(img);
      cc = labelingCompConn(bw);
-%      figure, imagesc(cc);
-    [bBoxLocs, lbls] = classificaOggetti(cc);
-    % Questo crea l'immagine con le dimensioni originali e a colori
-    fig = mostraGuessedLabels(im, scale_res, bBoxLocs, lbls);
+
+    [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati] = classificaOggetti(cc, labels_meaning);
+    figure, imagesc(immagineLayerOggettiTrovati);%valori uguali qui <-->classi/label uguali
+    fig = mostraGuessedLabels(imHD, scale_res, cetriOggetti, labelsObjs);
     figure, imshow(fig);
+    cetriOggetti
+    
 end

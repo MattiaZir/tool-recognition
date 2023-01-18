@@ -1,27 +1,45 @@
 % input: l' immagine delle n comp connesse, n = unique(cc)-1
-function [bBox, objs] = classificaOggetti(cc, labels_meaning)
+function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc, labels_meaning)
     addpath(genpath('support/'));
     load('classifierOggetti');
     
     labelT = 0.5; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
-    bBox = [];
-    objs = [];
+    cetriOggetti = [];
+    labelsObjs = [];
     
-    tmp = zeros(size(cc));%pic grande come l'originale in cui metterò 1 dove riconosco una forbice 2 dove riconosco un metro ...
+    tmpImage = zeros(size(cc));%pic di double grande come l'originale in cui metterò 1 dove riconosco una forbice 2 dove riconosco un metro ...
 
-    for i = 1:length(cc_unique) % parte da 2 perché 1 corrisponde allo sfondo ??????????
-        regione = cc==i;
-        T = splitvars(extractor(regione)); %splitto gli hu_moments per dopo
-        [label, prob] = predict(classifierOggetti, splitvars(T));
+    for i = 2:length(cc_unique) %il primo elem di cc_unique è 0 ->lo sfondo
+        regione = cc==cc_unique(i);
+        featuresEstratte = extractor(regione);
+        cetroOggetto = featuresEstratte.Centroid;
+        cc_unique(i)
+        featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
+        [label, prob] = predict(classifierOggetti, splitvars(featuresEstratte));
     
+
+        labelNumber=-1;
+
         if(max(prob) < labelT)
-            label = 11; % "unknown"
+            labelNumber = 11; % "unknown"
+        end
+
+        %trovo il numero che corrisponde a quella label nei dati annotati
+        for j = 1: numel(labels_meaning)
+            a = labels_meaning{j};            
+            if strcmp(a{2}, label) % il secondo elem è la stringa della label
+                labelNumber = j-1;
+                break;
+            end
         end
     
-        % proprietà per il labeling sull'immagine
-        bBox = [bBox; uint8(regionprops(tmp, "BoundingBox").BoundingBox)];
-        objs = [objs; label];
-    end
+        assert(labelNumber~=-1);
 
+        tmpImage = tmpImage+ (regione.*labelNumber);
+
+        cetriOggetti = [cetriOggetti; cetroOggetto];
+        labelsObjs = [labelsObjs; label];
+    end
+    immagineLayerOggetti = tmpImage;
 end

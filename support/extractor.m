@@ -27,8 +27,8 @@ addpath(genpath('support/'));
     cc_props = removevars(cc_props, ["MajorAxisLength", "MinorAxisLength"]);
 
 %     cc_props.hu = hu_moments(region, cc_props.Centroid);    
-    cc_props = removevars(cc_props,["Centroid"]);
-    %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
+%     cc_props = removevars(cc_props,["Centroid"]);
+%     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
 
     cc_props = removevars(cc_props,["Area"]);
     out=cc_props;
