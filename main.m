@@ -13,6 +13,8 @@ for i =  1 : 5 %test set
 
     [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati] = classificaOggetti(cc, labels_meaning);
     figure, imagesc(immagineLayerOggettiTrovati);%valori uguali qui <-->classi/label uguali
+    "labelsObjs"
+    labelsObjs
     fig = mostraGuessedLabels(imHD, scale_res, cetriOggetti, labelsObjs);
     figure, imshow(fig);
     

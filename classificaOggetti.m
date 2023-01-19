@@ -10,7 +10,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
     addpath(genpath('support/'));
     load('classifierOggetti');
     
-    labelT = 0.5; % threshold dell'oggetto, se è < del valore, è "unknown"
+    labelT = 0.4; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
     labelsObjs = [];
@@ -24,12 +24,13 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
         cc_unique(i)
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
         [label, prob] = predict(classifierOggetti, splitvars(featuresEstratte));
-    
+        max(prob)
 
         labelNumber=-1;
 
         if(max(prob) < labelT)
             labelNumber = 11; % "unknown"
+            label = "sconosciuto";
         end
 
         %trovo il numero che corrisponde a quella label nei dati annotati
