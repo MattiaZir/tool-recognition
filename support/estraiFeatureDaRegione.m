@@ -1,15 +1,18 @@
 % Input:
-%   region: immagine binaria che è la regione su cui calcolare le proprietà.
-% Output:
+%   maskRegione: immagine binaria che è la regione su cui calcolare le proprietà
+%   di forma e bordo
+%   pic dove ho calcolato dei descrittori di texture
+%   proprietà di texture ecc... considererò poi solo dove la mask dice che c'è la regione. % Output:
 %   out : tabella con le proprietà e i momenti della regione.
-function out = estraiFeatureDaRegione(region)    
-    % Calcolo le proprietà delle regioni
+function out = estraiFeatureDaRegione(maskRegione, picDescrittori)    
 
-addpath(genpath('support/'));
-    cc_props = regionprops("table", region, ["MajorAxisLength", "MinorAxisLength", ...
-        "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);
+    maskRegione = logical(maskRegione);
 
+    [~,~, stdsobj] = find(picDescrittori.*maskRegione);%tmp è un array dei valori >0
+    mediaStdOggetto = mean(stdsobj, "all");
 
+    cc_props = regionprops("table", maskRegione, ["MajorAxisLength", "MinorAxisLength", ...
+        "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
 
     % NOTA: SE IN INPUT REGION NON è una regione connessa ma più
     % d'una...ottengo più righe -> prendo quella della regione più grande(
@@ -19,8 +22,7 @@ addpath(genpath('support/'));
     [rows ~] = size(cc_props);
     if(rows>=2)
         rigaRegPiuGrande = find(cc_props.Area == max(cc_props.Area));
-        cc_props = cc_props(rigaRegPiuGrande,:);   
-        
+        cc_props = cc_props(rigaRegPiuGrande, :);           
     end
 
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
@@ -29,7 +31,10 @@ addpath(genpath('support/'));
 %     cc_props.hu = hu_moments(region, cc_props.Centroid);    
 %     cc_props = removevars(cc_props,["Centroid"]);
 %     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
-
+    
     cc_props = removevars(cc_props,["Area"]);
+
+    %aggiungo descrittori di texture
+    cc_props.mediaStdOggetto = mediaStdOggetto;
     out=cc_props;
 end
