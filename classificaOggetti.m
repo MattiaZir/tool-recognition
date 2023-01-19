@@ -30,6 +30,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
 
         if(max(prob) < labelT)
             labelNumber = 11; % "unknown"
+            label = "sconosciuto";
         end
 
         %trovo il numero che corrisponde a quella label nei dati annotati
