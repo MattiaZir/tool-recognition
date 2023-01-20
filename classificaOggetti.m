@@ -11,7 +11,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
     addpath(genpath('support/'));
     load('classifierOggetti');
     
-    labelT = 0.4; % threshold dell'oggetto, se è < del valore, è "unknown"
+    labelT = 0.2; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
     labelsObjs = [];
@@ -30,7 +30,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
         cetroOggetto = featuresEstratte.Centroid;
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
         
-        featuresEstratte
+%          featuresEstratte
         [label, prob] = predict(classifierOggetti, splitvars(featuresEstratte));
 %         "accuratezza"
 %         max(prob)
