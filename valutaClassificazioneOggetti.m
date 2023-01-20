@@ -39,6 +39,7 @@ show_confmat(performance.cm_raw, performance.labels);
 %su 1:n labelT = 0.2;  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto mean(res_table)=0.8960
 %su 1:n labelT = 0.2;  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8852
 %su 1:n labelT = 0.2; k=5  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8885
+%su 1:n labelT = 0.2; trainedModelConDati  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8944
 
 
 

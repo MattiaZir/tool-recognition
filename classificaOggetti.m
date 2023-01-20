@@ -9,8 +9,8 @@
 % immagineLayerOggetti: è una pic con a 1 i pixel dove ritiene ci sia un  forbice a 2 i pixel dove c'è un metro ...
 function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc, pic_raw, labels_meaning)
     addpath(genpath('support/'));
-    load('classifierOggetti');
-    
+%     load('trainedModelConDati');%decommenta per usare il calssifier suo trainato
+    load('classifierOggetti.mat')
     labelT = 0.2; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
@@ -32,6 +32,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
         
 %          featuresEstratte
         [label, prob] = predict(classifierOggetti, splitvars(featuresEstratte));
+%         [label, prob] = trainedModelConDati.predictFcn(splitvars(featuresEstratte)); %decommenta per usare il calssifier suo trainato
 %         "accuratezza"
 %         max(prob)
 

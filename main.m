@@ -5,7 +5,7 @@ addpath(genpath('support/'));
 n = numel(images); 
 scale_res = [154 205];
 
-for i =  1 : 10 %test set
+for i =  1 : n %test set
     imHD = im2double(imread(images{i}));
     img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
     bw = segmentaViaClassificazione(img);
