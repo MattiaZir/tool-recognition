@@ -4,12 +4,13 @@
 %   pic dove ho calcolato dei descrittori di texture
 %   proprietà di texture ecc... considererò poi solo dove la mask dice che c'è la regione. % Output:
 %   out : tabella con le proprietà e i momenti della regione.
-function out = estraiFeatureDaRegione(maskRegione, picDescrittori)    
+function out = estraiFeatureDaRegione(maskRegione, picDevStd)    
 
     maskRegione = logical(maskRegione);
 
-    [~,~, stdsobj] = find(picDescrittori.*maskRegione);%tmp è un array dei valori >0
+    [~,~, stdsobj] = find(picDevStd.*maskRegione);%tmp è un array dei valori >0
     mediaStdOggetto = mean(stdsobj, "all");
+
 
     cc_props = regionprops("table", maskRegione, ["MajorAxisLength", "MinorAxisLength", ...
         "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
@@ -32,9 +33,11 @@ function out = estraiFeatureDaRegione(maskRegione, picDescrittori)
 %     cc_props = removevars(cc_props,["Centroid"]);
 %     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
     
-    cc_props = removevars(cc_props,["Area"]);
 
     %aggiungo descrittori di texture
     cc_props.mediaStdOggetto = mediaStdOggetto;
+
+
+    cc_props = removevars(cc_props,["Area"]);
     out=splitvars(cc_props, "hu");
 end

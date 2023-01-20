@@ -11,7 +11,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
 
 %     load('trainedModelConDati');%decommenta per usare il calssifier suo trainato
     load('classifierOggetti.mat')
-    labelT = 0.4; % threshold dell'oggetto, se è < del valore, è "unknown"
+    labelT = 0.6; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
     labelsObjs = [];
@@ -23,7 +23,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
         %calcolo feature di texture su tutta la pic; farlo fare a estraiFeatures solo sulla reg dell'obj verrebbe male
         res = compute_local_descriptors(pic_raw, 30, 1, @compute_std_dev2);
         stdPuntuale = reshape(res.descriptors, [res.nt_rows res.nt_cols]);
-
+        
         regione = cc==cc_unique(i);
         featuresEstratte = estraiFeatureDaRegione(regione, stdPuntuale);
 
