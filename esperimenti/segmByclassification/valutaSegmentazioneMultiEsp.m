@@ -75,7 +75,7 @@ for i = 1 : n
     tmp = {i, diff};    
     res_table = [res_table; tmp];
 
-    cm_all = [cm_all confmat(logical(gt), bw)];
+    cm_all = [cm_all, confmat(logical(gt), bw)];
 end
 timed = toc;
 
@@ -87,7 +87,8 @@ if salva==1
     saveas(gcf, segmentationMethodName + "/tot_errors", 'jpg');
 end
 
-cm_mean = compute_mean_confmat(cm_all);
+cm_mean = compute_mean_confmat(cm_all);%fatto per pic binarie!!!
+cm_mean.labels = {"sfondo", "forbice", "metro", "pinza", "chiave", "martello", "cacciavite", "avvitatore", "pappagallo", "lima", "pennarello", "sconosciuto"};
 figure, show_confmat(cm_mean.cm_raw, cm_mean.labels);
 
 if salva==1
