@@ -32,13 +32,10 @@ end
 
 tabSenzaLabel = removevars(tabellaDescrittori, ["Label"]);
 classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",3);
+% classifierOggetti = prune(fitctree(tabSenzaLabel, tabellaDescrittori.Label));
+% classifierOggetti = fitcauto(tabSenzaLabel, tabellaDescrittori.Label);
 save("classifierOggetti", "classifierOggetti");
 42
-
-
-
-
-
 
 
 
