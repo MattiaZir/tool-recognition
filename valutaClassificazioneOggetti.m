@@ -19,8 +19,7 @@ for i =  1 : n %test set
     cc = labelingCompConn(bw);
 
     [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati] = classificaOggetti(cc, img, labels_meaning);
-    diff = compareMasksV2(gt, immagineLayerOggettiTrovati);%num pixel diversi
-
+    
 
     
 
@@ -29,7 +28,7 @@ for i =  1 : n %test set
 end
 
 
-performance = confmat(cm_all_predicted, cm_all_gt)
+performance = confmat(cm_all_gt, cm_all_predicted)
 figure;
 show_confmat(performance.cm_raw, performance.labels);
 
@@ -40,8 +39,12 @@ show_confmat(performance.cm_raw, performance.labels);
 %su 1:n labelT = 0.2;  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8852
 %su 1:n labelT = 0.2; k=5  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8885
 %su 1:n labelT = 0.2; trainedModelConDati  rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8944
+%su 1:n labelT = 0.2;  rapportoAssi, "Circularity", "Solidity",
+%mediaStdOggetto hu mean(res_table)=0.8882
 
+%su 1:n labelT = 0.2; pruned tree rapportoAssi,"EulerNumber", "Circularity", "Solidity", mediaStdOggetto hu mean(res_table)=0.8890
 
+%su 1:n labelT = 0.2;  tutto hu mean(res_table)=0.8852
 
 
 
