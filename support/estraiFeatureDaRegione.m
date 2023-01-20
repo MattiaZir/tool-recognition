@@ -28,7 +28,7 @@ function out = estraiFeatureDaRegione(maskRegione, picDescrittori)
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
     cc_props = removevars(cc_props, ["MajorAxisLength", "MinorAxisLength"]);
 
-%     cc_props.hu = hu_moments(maskRegione, cc_props.Centroid);    
+    cc_props.hu = hu_moments(maskRegione, cc_props.Centroid);    
 %     cc_props = removevars(cc_props,["Centroid"]);
 %     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
     
@@ -36,5 +36,5 @@ function out = estraiFeatureDaRegione(maskRegione, picDescrittori)
 
     %aggiungo descrittori di texture
     cc_props.mediaStdOggetto = mediaStdOggetto;
-    out=cc_props;
+    out=splitvars(cc_props, "hu");
 end

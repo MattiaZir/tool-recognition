@@ -22,7 +22,7 @@ for i = 1 : 1: n
 
     featureTableRow = estraiFeatureDaRegione(gt, stdPuntuale);%bypasso classificaoggetti.m tanto esso serve se ho + c.connesse e per il mostrare la label nei centroidi
     %bisogna ricordarsi di togliere le feature che pure classificaoggetti.m
-    %toglie e passare i descrittori di texture come fa lui
+    %toglie e passare i descrittori di texture come fa lui    
     featureTableRow = removevars(featureTableRow, ["Centroid"]);
     featureTableRow.Label = labelsLette(i);
     tabellaDescrittori = [tabellaDescrittori; featureTableRow];
@@ -32,7 +32,7 @@ end
 
 tabSenzaLabel = removevars(tabellaDescrittori, ["Label"]);
 
-classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",3);
+classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",5);
 save("classifierOggetti", "classifierOggetti");
 42
 
