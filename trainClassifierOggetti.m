@@ -41,3 +41,8 @@ save("classifierOggetti", "classifierOggetti");
 % classifierOggetti = fitcauto(tabSenzaLabel, tabellaDescrittori.Label);
 % classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",3);
 
+
+
+
+
+

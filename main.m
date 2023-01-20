@@ -14,7 +14,8 @@ for i =  1 : n %lo provo sul test set
 
     [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati] = classificaOggetti(cc, img, labels_meaning);
 %   figure, imagesc(immagineLayerOggettiTrovati); % Decommentami se vuoi vedere le componenti connesse/segmentaz
-    fig = mostraGuessedLabels(imresize(imHD, scale_res.*2, "nearest"), scale_res, cetriOggetti, labelsObjs);
+    fig = mostraGuessedLabels(imresize(imHD, scale_res.*3, "nearest"), scale_res, cetriOggetti, labelsObjs);
     
     figure, imshow(fig);
+
 end
