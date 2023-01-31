@@ -31,16 +31,15 @@ for i = 1 : 1: n
 end
 
 
-tabSenzaLabel = removevars(tabellaDescrittori, ["Label"]);
+[tabSenzaLabel, C,S] = normalize(removevars(tabellaDescrittori, ["Label"]));
 classifierOggetti = prune(fitctree(tabSenzaLabel, tabellaDescrittori.Label));
 
-save("classifierOggetti", "classifierOggetti");
+save("classifierOggettiPiuCS", "classifierOggetti", "C", "C", "S","S");
 
 
 %altri esperimenti:
 % classifierOggetti = fitcauto(tabSenzaLabel, tabellaDescrittori.Label);
 % classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",3);
-
 
 
 

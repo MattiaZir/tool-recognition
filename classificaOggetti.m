@@ -10,7 +10,7 @@
 function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc, pic_raw, labels_meaning)
 
 %     load('trainedModelConDati');%decommenta per usare il calssifier suo trainato
-    load('classifierOggetti.mat')
+    load('classifierOggettiPiuCS.mat');
     labelT = 0.6; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
@@ -29,9 +29,9 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
 
         cetroOggetto = featuresEstratte.Centroid;
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
-        
-%          featuresEstratte
-        [label, prob] = predict(classifierOggetti, splitvars(featuresEstratte));
+        featuresEstratteNormalizzate = normalize(featuresEstratte,"center",C,"scale",S);
+
+        [label, prob] = predict(classifierOggetti, featuresEstratteNormalizzate);
 %         [label, prob] = trainedModelConDati.predictFcn(splitvars(featuresEstratte)); %decommenta per usare il calssifier suo trainato
 %         "accuratezza"
 %         max(prob)
@@ -60,4 +60,6 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
         labelsObjs = [labelsObjs; label];
     end
     immagineLayerOggetti = tmpImage;
+
+   
 end
