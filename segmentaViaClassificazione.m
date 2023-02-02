@@ -3,7 +3,7 @@ function out = segmentaViaClassificazione(im)
 
     load("classifierSfondo");
 
-    res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);           
+    res = compute_local_descriptors(im, 30, 1, @compute_std_dev2);           
     test.values = res.descriptors;
       
     predicted = predict(classifierSfondo, test.values);%vettore di label: 0 e 1 (ho due classi)
@@ -12,5 +12,5 @@ function out = segmentaViaClassificazione(im)
     
     p = activecontour(im,p,300);
 
-    out = imclose(p, strel('disk',5));
+    out = imclose(p, strel('disk',2));
 end

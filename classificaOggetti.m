@@ -7,10 +7,11 @@
 % x,y (coord del centroide di quell'oggetto di quella riga)
 % labelsObjs: cetriOggetti è un array di label (stringhe)
 % immagineLayerOggetti: è una pic con a 1 i pixel dove ritiene ci sia un  forbice a 2 i pixel dove c'è un metro ...
-function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc, pic_raw, labels_meaning)
+function [cetriOggetti, labelsObjs, immagineLayerOggetti, tabellaFeatues] = classificaOggetti(cc, pic_raw, labels_meaning)
 
+    tabellaFeatues=table;
 %     load('trainedModelConDati');%decommenta per usare il calssifier suo trainato
-    load('classifierOggettiPiuCS.mat');
+    load('classifierOggettiPiuMinMax.mat');
     labelT = 0.6; % threshold dell'oggetto, se è < del valore, è "unknown"
     cc_unique = unique(cc);
     cetriOggetti = [];
@@ -29,7 +30,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
 
         cetroOggetto = featuresEstratte.Centroid;
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        
-        featuresEstratteNormalizzate = normalize(featuresEstratte,"center",C,"scale",S);
+        featuresEstratteNormalizzate = normalizza(featuresEstratte, minimi, massimi);
 
         [label, prob] = predict(classifierOggetti, featuresEstratteNormalizzate);
 %         [label, prob] = trainedModelConDati.predictFcn(splitvars(featuresEstratte)); %decommenta per usare il calssifier suo trainato
@@ -54,12 +55,15 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti] = classificaOggetti(cc
     
         assert(labelNumber~=-1);
 
-        tmpImage = tmpImage+ (regione.*labelNumber);
-
+        tmpImage = tmpImage+ (regione.*labelNumber);        
         cetriOggetti = [cetriOggetti; cetroOggetto];
         labelsObjs = [labelsObjs; label];
+
+        featuresEstratteNormalizzate.Label = label;
+        featuresEstratteNormalizzate.cetroOggetto = cetroOggetto;
+        tabellaFeatues = [tabellaFeatues; featuresEstratteNormalizzate];
+
     end
     immagineLayerOggetti = tmpImage;
 
-   
 end

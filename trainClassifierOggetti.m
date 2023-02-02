@@ -31,16 +31,15 @@ for i = 1 : 1: n
 end
 
 
-[tabSenzaLabel, C,S] = normalize(removevars(tabellaDescrittori, ["Label"]));
-classifierOggetti = prune(fitctree(tabSenzaLabel, tabellaDescrittori.Label));
+[tabSenzaLabelNormalizzata, minimi, massimi] = normalizza(removevars(tabellaDescrittori, ["Label"]));
 
-save("classifierOggettiPiuCS", "classifierOggetti", "C", "C", "S","S");
+classifierOggetti = prune(fitctree(tabSenzaLabelNormalizzata, tabellaDescrittori.Label));
 
+save("classifierOggettiPiuMinMax", "classifierOggetti", "minimi", "minimi", "massimi","massimi");
 
 %altri esperimenti:
 % classifierOggetti = fitcauto(tabSenzaLabel, tabellaDescrittori.Label);
 % classifierOggetti = fitcknn(tabSenzaLabel, tabellaDescrittori.Label, "NumNeighbors",3);
-
 
 
 

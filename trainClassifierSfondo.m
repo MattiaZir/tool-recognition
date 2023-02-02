@@ -15,7 +15,7 @@ for i = 1 : 1: n
     gt = uint8(gt);
     
     [r c ~] = size(im);
-    res = compute_local_descriptors(im, 15, 1, @compute_std_dev2);    
+    res = compute_local_descriptors(im, 30, 1, @compute_std_dev2);    
     [rs,cs,ch] = size(res.descriptors); % 12288 x 59 x 1
     train_values = vertcat(train_values, res.descriptors);
     labels_vector = reshape(gt, [r*c 1]); % 12288 x 1 vettore
