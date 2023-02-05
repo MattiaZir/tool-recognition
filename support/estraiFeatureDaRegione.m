@@ -11,7 +11,6 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
     [~,~, stdsobj] = find(picDevStd.*maskRegione);%tmp è un array dei valori >0
     mediaStdOggetto = mean(stdsobj, "all");
 
-
     cc_props = regionprops("table", maskRegione, ["MajorAxisLength", "MinorAxisLength", ...
         "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
 
@@ -25,6 +24,8 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
         rigaRegPiuGrande = find(cc_props.Area == max(cc_props.Area));
         cc_props = cc_props(rigaRegPiuGrande, :);           
     end
+
+%     cc_props
 
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
     cc_props = removevars(cc_props, ["MajorAxisLength", "MinorAxisLength"]);

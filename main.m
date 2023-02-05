@@ -6,7 +6,7 @@ addpath(genpath('support/'));
 n = numel(images); 
 scale_res = [154 205];
 
-for i =  1 : 10 %lo provo sul test set
+for i =  10 : 19 %lo provo sul test set
     imHD = im2double(imread(images{i}));
     img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
     bw = segmentaViaClassificazione(img);
@@ -17,7 +17,9 @@ for i =  1 : 10 %lo provo sul test set
     gt = uint8(gt); 
 
     cc = labelingCompConn(bw);
+    
 
+    %anche se gli passo la gt scazza tutto
     [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati, ~] = classificaOggetti(cc, img, labels_meaning);
     figure, imagesc(immagineLayerOggettiTrovati); % Decommentami se vuoi vedere le componenti connesse/segmentaz
     fig = mostraGuessedLabels(imresize(imHD, scale_res.*3, "nearest"), scale_res, cetriOggetti, labelsObjs);

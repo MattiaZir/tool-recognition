@@ -33,7 +33,8 @@ end
 
 [tabSenzaLabelNormalizzata, minimi, massimi] = normalizza(removevars(tabellaDescrittori, ["Label"]));
 
-classifierOggetti = prune(fitctree(tabSenzaLabelNormalizzata, tabellaDescrittori.Label));
+% classifierOggetti = prune(fitctree(tabSenzaLabelNormalizzata, tabellaDescrittori.Label));
+classifierOggetti = fitcknn(tabSenzaLabelNormalizzata, tabellaDescrittori.Label, "NumNeighbors",1);
 
 save("classifierOggettiPiuMinMax", "classifierOggetti", "minimi", "minimi", "massimi","massimi");
 
