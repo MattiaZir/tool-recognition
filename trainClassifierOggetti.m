@@ -17,14 +17,13 @@ for i = 1 : 1: n
 
     gt = imclose(gt, strel('disk', 2));%la gt non è perfetta...
     
-    res = compute_local_descriptors(im, 30, 1, @compute_std_dev2);
-    stdPuntuale = reshape(res.descriptors, [res.nt_rows res.nt_cols]);
+    %res = compute_local_descriptors(im, 30, 1, @compute_std_dev2);
+    %stdPuntuale = reshape(res.descriptors, [res.nt_rows res.nt_cols]);
     
 
-    featureTableRow = estraiFeatureDaRegione(gt, stdPuntuale);%bypasso classificaoggetti.m tanto esso serve se ho + c.connesse e per il mostrare la label nei centroidi
+    featureTableRow = estraiFeatureDaRegione(gt, 0, im);%bypasso classificaoggetti.m tanto esso serve se ho + c.connesse e per il mostrare la label nei centroidi
     %bisogna ricordarsi di togliere le feature che pure classificaoggetti.m
     %toglie e passare i descrittori di texture come fa lui    
-    featureTableRow = removevars(featureTableRow, ["Centroid"]);
     featureTableRow.Label = labelsLette(i);
     tabellaDescrittori = [tabellaDescrittori; featureTableRow];
     

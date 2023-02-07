@@ -1,5 +1,5 @@
-% Non sono sicuro funzioni, è orribile
-function out = hu_moments(region, centroid)
+% Non ha più bisogno dei centroidi, li calcola da solo.
+function out = hu_moments(region, gray)
 
 ORDER_00 = [0 0];
 ORDER_10 = [1 0];
@@ -11,30 +11,31 @@ ORDER_21 = [2 1];
 ORDER_12 = [1 2];
 ORDER_30 = [3 0];
 ORDER_03 = [0 3];
+centroid = regionprops(region, gray, "WeightedCentroid").WeightedCentroid;
 
 xMean = centroid(1);
 yMean = centroid(2);
-mu00 = calculateMoment(ORDER_00, region, 0, 0);
+mu00 = calculateMoment(ORDER_00, gray, 0, 0);
 
 % normalizzazione dei momenti (e calcolo direttamente)
 % primo ordine
 
 
-mu00_gamma = power(mu00, (1/2)+1);
-mu10 = calculateMoment(ORDER_10, region, xMean, yMean)/mu00_gamma;
-mu01 = calculateMoment(ORDER_01, region, xMean, yMean)/mu00_gamma;
+mu00_gamma = power(mu00, 3/2);
+mu10 = calculateMoment(ORDER_10, gray, xMean, yMean)/mu00_gamma;
+mu01 = calculateMoment(ORDER_01, gray, xMean, yMean)/mu00_gamma;
 % secondo ordine
-mu00_gamma = mu00^(2);
-mu11 = calculateMoment(ORDER_11, region, xMean, yMean)/mu00_gamma;
-mu20 = calculateMoment(ORDER_20, region, xMean, yMean)/mu00_gamma;
-mu02 = calculateMoment(ORDER_02, region, xMean, yMean)/mu00_gamma;
+mu00_gamma = power(mu00, 2/3);
+mu11 = calculateMoment(ORDER_11, gray, xMean, yMean)/mu00_gamma;
+mu20 = calculateMoment(ORDER_20, gray, xMean, yMean)/mu00_gamma;
+mu02 = calculateMoment(ORDER_02, gray, xMean, yMean)/mu00_gamma;
 
 % terzo ordine
-mu00_gamma = mu00^(3);
-mu21 = calculateMoment(ORDER_21, region, xMean, yMean)/mu00_gamma;
-mu12 = calculateMoment(ORDER_12, region, xMean, yMean)/mu00_gamma;
-mu30 = calculateMoment(ORDER_30, region, xMean, yMean)/mu00_gamma;
-mu03 = calculateMoment(ORDER_03, region, xMean, yMean)/mu00_gamma;
+mu00_gamma = mu00;
+mu21 = calculateMoment(ORDER_21, gray, xMean, yMean)/mu00_gamma;
+mu12 = calculateMoment(ORDER_12, gray, xMean, yMean)/mu00_gamma;
+mu30 = calculateMoment(ORDER_30, gray, xMean, yMean)/mu00_gamma;
+mu03 = calculateMoment(ORDER_03, gray, xMean, yMean)/mu00_gamma;
 
 %Calcolo i momenti di hu
 
@@ -50,6 +51,7 @@ h(7) = (3*mu21 - mu03)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*
 % log(10) del valore assoluto di h, si chiama "normalizzazione
 % logaritmico-modulare
 out = -sign(h).*log10(abs(h));
+out = normalize(out, "range");
 end
 
 

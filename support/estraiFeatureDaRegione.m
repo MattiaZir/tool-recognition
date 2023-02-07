@@ -4,7 +4,7 @@
 %   pic dove ho calcolato dei descrittori di texture
 %   proprietà di texture ecc... considererò poi solo dove la mask dice che c'è la regione. % Output:
 %   out : tabella con le proprietà e i momenti della regione.
-function out = estraiFeatureDaRegione(maskRegione, picDevStd)    
+function out = estraiFeatureDaRegione(maskRegione, picDevStd, gray)    
 
     maskRegione = logical(maskRegione);
 
@@ -12,7 +12,7 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
     mediaStdOggetto = mean(stdsobj, "all");
 
     cc_props = regionprops("table", maskRegione, ["MajorAxisLength", "MinorAxisLength", ...
-        "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
+        "EulerNumber", "Circularity", "Solidity", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
 
     % NOTA: SE IN INPUT REGION NON è una regione connessa ma più
     % d'una...ottengo più righe -> prendo quella della regione più grande(
@@ -30,19 +30,10 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
     cc_props = removevars(cc_props, ["MajorAxisLength", "MinorAxisLength"]);
 
-%     cc_props.hu = hu_moments(maskRegione, cc_props.Centroid); sbagliati??
-%  prove   cc_props.hu = [moment(maskRegione, 2,"all"), moment(maskRegione, 3,"all"), moment(maskRegione, 4,"all"), moment(maskRegione, 5,"all"), moment(maskRegione, 6,"all"), moment(maskRegione, 7,"all")];
-
-
-%     cc_props = removevars(cc_props,["Centroid"]);
-%     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
-    
+    cc_props.hu = hu_moments(maskRegione,gray);
 
     %aggiungo descrittori di texture
     cc_props.mediaStdOggetto = mediaStdOggetto;
-
-
     cc_props = removevars(cc_props,["Area"]);
-%     out=splitvars(cc_props, "hu"); se i momenti sono sbagliati...
-    out = cc_props;% se i momenti sono sbagliati...
+    out = splitvars(cc_props, "hu");
 end
