@@ -7,7 +7,7 @@ scale_res = [154 205];
 similarityPerClasse{13}=42;% in questo cell-array alla posiz i(da 1 fino a 10) c'è una batteria di coeff di jaccard per la classe i
 
  
-for i =  8 : 9 %test set
+for i =  1 : n %test set
     imHD = im2double(imread(images{i}));
     img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
 %     bw = segmentaViaClassificazione(img);
