@@ -51,7 +51,6 @@ h(7) = (3*mu21 - mu03)*(mu30 + mu12)*((mu30 + mu12)^2 - 3*(mu21 + mu03)^2) + (3*
 % log(10) del valore assoluto di h, si chiama "normalizzazione
 % logaritmico-modulare
 out = -sign(h).*log10(abs(h));
-out = normalize(out, "range");
 end
 
 
