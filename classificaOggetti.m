@@ -40,7 +40,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti, tabellaFeatues] = clas
         labelNumber=-1;
 
         if(max(prob) < labelT)
-            labelNumber = 11; % "unknown"
+            labelNumber = 8; % "unknown"
             label = "sconosciuto";
         end
 

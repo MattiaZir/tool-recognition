@@ -30,7 +30,10 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
     cc_props.RapportoAssi = cc_props.MajorAxisLength / cc_props.MinorAxisLength;
     cc_props = removevars(cc_props, ["MajorAxisLength", "MinorAxisLength"]);
 
-    cc_props.hu = hu_moments(maskRegione, cc_props.Centroid);    
+%     cc_props.hu = hu_moments(maskRegione, cc_props.Centroid); sbagliati??
+%  prove   cc_props.hu = [moment(maskRegione, 2,"all"), moment(maskRegione, 3,"all"), moment(maskRegione, 4,"all"), moment(maskRegione, 5,"all"), moment(maskRegione, 6,"all"), moment(maskRegione, 7,"all")];
+
+
 %     cc_props = removevars(cc_props,["Centroid"]);
 %     %non facciamolo allenare sul centroid -> poi dopo i momenti lo tolgo dalla tabella.
     
@@ -40,5 +43,6 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd)
 
 
     cc_props = removevars(cc_props,["Area"]);
-    out=splitvars(cc_props, "hu");
+%     out=splitvars(cc_props, "hu"); se i momenti sono sbagliati...
+    out = cc_props;% se i momenti sono sbagliati...
 end

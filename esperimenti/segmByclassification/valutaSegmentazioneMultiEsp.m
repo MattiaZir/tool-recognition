@@ -7,7 +7,7 @@ res_table = cell2table(cell(0,2), 'VariableNames', {'#', 'errors'});
 
 %  lui salva in
 % esperimenti/segmentationMethodName/multiple/ i 3 grafici e 'grouped' serializzato.
-salva = 1;
+salva = 0;
 cm_all = [];
 
 % parametri per segmentazione
