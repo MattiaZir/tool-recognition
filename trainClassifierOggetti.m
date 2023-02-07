@@ -21,7 +21,7 @@ for i = 1 : 1: n
     stdPuntuale = reshape(res.descriptors, [res.nt_rows res.nt_cols]);
     
 
-    featureTableRow = estraiFeatureDaRegione(gt, 0, im);%bypasso classificaoggetti.m tanto esso serve se ho + c.connesse e per il mostrare la label nei centroidi
+    featureTableRow = estraiFeatureDaRegione(gt, stdPuntuale, im);%bypasso classificaoggetti.m tanto esso serve se ho + c.connesse e per il mostrare la label nei centroidi
     %bisogna ricordarsi di togliere le feature che pure classificaoggetti.m
     %toglie e passare i descrittori di texture come fa lui    
     featureTableRow.Label = labelsLette(i);
