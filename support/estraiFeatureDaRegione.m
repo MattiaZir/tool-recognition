@@ -12,7 +12,7 @@ function out = estraiFeatureDaRegione(maskRegione, picDevStd, gray)
     mediaStdOggetto = mean(stdsobj, "all");
 
     cc_props = regionprops("table", maskRegione, ["MajorAxisLength", "MinorAxisLength", ...
-        "EulerNumber", "Circularity", "Solidity", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
+        "EulerNumber", "Circularity", "Solidity", "Centroid", "Area"]);% Solidity = num pixel nella convex hull / num pixel area
 
     % NOTA: SE IN INPUT REGION NON è una regione connessa ma più
     % d'una...ottengo più righe -> prendo quella della regione più grande(

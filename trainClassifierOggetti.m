@@ -30,7 +30,7 @@ for i = 1 : 1: n
 end
 
 
-[tabSenzaLabelNormalizzata, minimi, massimi] = normalizza(removevars(tabellaDescrittori, ["Label"]));
+[tabSenzaLabelNormalizzata, minimi, massimi] = normalizza(removevars(tabellaDescrittori, ["Label", "Centroid"]));
 
 % classifierOggetti = prune(fitctree(tabSenzaLabelNormalizzata, tabellaDescrittori.Label));
 classifierOggetti = fitcknn(tabSenzaLabelNormalizzata, tabellaDescrittori.Label, "NumNeighbors",1);

@@ -1,6 +1,6 @@
 % input: 
 % cc:   l' immagine delle n comp connesse, n = unique(cc)-1
-% pic_raw: 
+% pic_raw: la imm originale
 % labels_meaning: mappa id <--> stringa di significato
 % output: 
 % cetriOggetti: tabella di n righe e 2 colonne; n= num oggetti/cc; colonne:
@@ -26,7 +26,7 @@ function [cetriOggetti, labelsObjs, immagineLayerOggetti, tabellaFeatues] = clas
         stdPuntuale = reshape(res.descriptors, [res.nt_rows res.nt_cols]);
         
         regione = cc==cc_unique(i);
-        featuresEstratte = estraiFeatureDaRegione(regione, stdPuntuale);
+        featuresEstratte = estraiFeatureDaRegione(regione, stdPuntuale, pic_raw);
 
         cetroOggetto = featuresEstratte.Centroid;
         featuresEstratte = removevars(featuresEstratte,["Centroid"]);%non facciamolo allenare sul centroid -> lo tolgo dalla tabella.        

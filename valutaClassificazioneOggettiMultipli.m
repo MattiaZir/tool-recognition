@@ -10,15 +10,15 @@ similarityPerClasse{13}=42;% in questo cell-array alla posiz i(da 1 fino a 10) c
 for i =  1 : n %test set
     imHD = im2double(imread(images{i}));
     img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
-%     bw = segmentaViaClassificazione(img);
+    bw = segmentaViaClassificazione(img);
     gt = imread(paths2gt{i});
     gt = imresize(gt(:,:,1), scale_res,"nearest");    
     gt = uint8(gt); 
 
 
-%     cc = labelingCompConn(bw);
+    cc = labelingCompConn(bw);
 %     figure(i), imshow(cc);
-    [cetriOggetti, labelsObjs, immagineLayerOggetti, tabellaFeatues] = classificaOggetti(gt, img, labels_meaning);
+    [~, ~, immagineLayerOggetti, ~] = classificaOggetti(cc, img, labels_meaning);
 
 
 %     if(~numel(find(gt==9))==0)
