@@ -6,11 +6,11 @@ addpath(genpath('support/'));
 n = numel(images); 
 scale_res = [154 205];
 
-for i =  8 : 2: 27 %lo provo sul test/train set
+for i =  3:3%8 : 2: 27 %lo provo sul test/train set
     imHD = im2double(imread(images{i}));
     img = rgb2gray(imresize(imHD, scale_res, "nearest"));%opero sull'immagine low-res
     bw = segmentaViaClassificazione(img);
-
+    figure, imshow(bw);
 
     gt = imread(paths2gt{i});
     gt = imresize(gt(:,:,1), scale_res,"nearest");% >0;    
@@ -20,10 +20,10 @@ for i =  8 : 2: 27 %lo provo sul test/train set
 %     figure, imagesc(cc);
 
     %anche se gli passo la gt scazza tutto
-    [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati, ~] = classificaOggetti(gt, img, labels_meaning);
-    figure, imagesc(immagineLayerOggettiTrovati); % Decommentami se vuoi vedere le componenti connesse/segmentaz
-    fig = mostraGuessedLabels(imresize(imHD, scale_res.*3, "nearest"), scale_res, cetriOggetti, labelsObjs);
-    figure, imshow(fig);
+%     [cetriOggetti, labelsObjs, immagineLayerOggettiTrovati, ~] = classificaOggetti(gt, img, labels_meaning);
+%     figure, imagesc(immagineLayerOggettiTrovati); % Decommentami se vuoi vedere le componenti connesse/segmentaz
+%     fig = mostraGuessedLabels(imresize(imHD, scale_res.*3, "nearest"), scale_res, cetriOggetti, labelsObjs);
+%     figure, imshow(fig);
 
 end
 

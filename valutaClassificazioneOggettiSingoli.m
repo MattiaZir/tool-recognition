@@ -17,7 +17,7 @@ for i =  1 :n %test set
 
     cc = labelingCompConn(bw);
 %     figure(i), imshow(cc);
-    [~, labelsObjs, ~, ~] = classificaOggetti(cc, img, labels_meaning);
+    [~, labelsObjs, ~, ~] = classificaOggetti(gt, img, labels_meaning);
     
 
     if numel(labelsObjs) == 1 % se è zero, 2, 3, ... classi predette; ma dovrebbe essere 1

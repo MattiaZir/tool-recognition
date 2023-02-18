@@ -21,6 +21,8 @@ function out = segmentaViaClassificazione(im)
     
 %     figure, imshow(p2);
     pac = activecontour(im, p2,300);
+%prova pazza sgravata : tolgo snakes
+%     pac = p2;
 
     out = imclose(pac, strel('disk',2));
 %     figure, imshow(out);

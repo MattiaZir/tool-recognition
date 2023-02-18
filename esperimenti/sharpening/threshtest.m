@@ -37,7 +37,7 @@ for rad = 1:length(radiuses)
 
         subplot(1,2,2), imshow(bin), title("binarized");
         xlabel(["type: adaptive", "foregroundPolarity: dark", "sensitivity: 0.4"]);
-        saveas(fig, folder + idx, 'jpg');
+%         saveas(fig, folder + idx, 'jpg');
         idx = idx + 1;
     end
 end
